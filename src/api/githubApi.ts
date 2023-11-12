@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const githubApi = axios.create({
-  baseURL: 'https://raw.githubusercontent.com/lkzc19/nahida-library.app/source',
+  baseURL: import.meta.env.VITE_RESOURCE_URL,
   timeout: 5000
 })
 

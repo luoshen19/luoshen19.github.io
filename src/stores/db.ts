@@ -5,7 +5,7 @@ export const useMusicStore = defineStore('music', () => {
   const index = ref(-1)
   const current = ref<string>()
   const list = ref<string[]>([])
-  const baseURL4Music = 'https://raw.githubusercontent.com/lkzc19/nahida-library.app/source/music/'
+  const baseURL4Music = import.meta.env.VITE_RESOURCE_URL + '/music/'
 
   // 初始化
   function init(musicList: string[]) {
@@ -41,7 +41,9 @@ export const useImageStore = defineStore('image', () => {
   const index = ref(-1)
   const current = ref<string>()
   const list = ref<string[]>([])
-  const baseURL4Image = 'https://raw.githubusercontent.com/lkzc19/nahida-library.app/source/image/'
+  console.log(import.meta.env.VITE_RESOURCE_URL);
+  
+  const baseURL4Image = import.meta.env.VITE_RESOURCE_URL + '/image/'
 
   // 初始化
   function init(musicList: string[]) {
