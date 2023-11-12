@@ -41,8 +41,6 @@ export const useImageStore = defineStore('image', () => {
   const index = ref(-1)
   const current = ref<string>()
   const list = ref<string[]>([])
-  console.log(import.meta.env.VITE_RESOURCE_URL);
-  
   const baseURL4Image = import.meta.env.VITE_RESOURCE_URL + '/image/'
 
   // 初始化
