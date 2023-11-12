@@ -1,0 +1,12 @@
+@import './reset.css';
+@import './base.css';
+@import './common.css';
+
+#app {
+  max-width: 1280px;
+  height: 100vh;
+  margin: 0 auto;
+  /* padding: 2rem; */
+
+  font-weight: normal;
+}
