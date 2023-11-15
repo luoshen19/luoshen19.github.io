@@ -3,11 +3,11 @@ import { ref, provide } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMusicStore, useImageStore } from '@/stores/db'
 import { useAudioMetaStore } from '@/stores/audio'
-import { audioKey } from './util/keys.js'
+import { audioKey, audioOperateKey } from './util/keys.js'
 import { db } from '@/api/githubApi'
 
 const audioRef = ref<HTMLAudioElement>()
-provide(audioKey, audioRef);
+provide(audioKey, audioRef)
 
 const music = useMusicStore()
 const image = useImageStore()
@@ -30,34 +30,78 @@ function timeupdateEvent() {
 }
 // 一首歌播放结束时触发
 function endedEvent() {
-  console.log("1111");
-  
+  console.log('1111')
+
   // handleNext()
 }
+
+// audio 操作 =====================
+
+// 播放
+function handlePlay() {
+  if (audioRef.value!.paused) {
+    audioRef.value!.play()
+  } else {
+    audioRef.value!.pause()
+  }
+  audioMeta.paused = !audioMeta.paused
+}
+// 上一首
+function handlePrevious() {
+  switchMusic(() => music.previous())
+}
+// 下一首
+function handleNext() {
+  switchMusic(() => music.next())
+}
+// 切歌
+function handleSwitch(musicIndex: number) {
+  switchMusic(() => {
+    music.change(musicIndex)
+  })
+}
+
+function switchMusic(callback: () => void) {
+  audioRef.value!.pause()
+  callback()
+  // 监听音频可以开始播放的事件
+  audioRef.value!.addEventListener('canplay', function () {
+    // 开始播放音频
+    audioRef.value!.play()
+    audioMeta.paused = false
+  })
+  // 重新加载音频
+  audioRef.value!.load()
+}
+
+provide(audioOperateKey, {
+  handlePlay: handlePlay,
+  handlePrevious: handlePrevious,
+  handleNext: handleNext,
+  handleSwitch: handleSwitch
+})
 
 // 路由 ===========================
 const router = useRouter()
 
 function pushIndex() {
-  router.push("/")
+  router.push('/')
 }
 
 function pushAbout() {
-  router.push("/about")
+  router.push('/about')
 }
-
-
 </script>
 
 <template>
-      <!-- controls 显示面板 -->
-      <audio
-      ref="audioRef"
-      :src="music.current"
-      @loadedmetadata="loadedmetadataEvent"
-      @timeupdate="timeupdateEvent"
-      @ended="endedEvent"
-    ></audio>
+  <!-- controls 显示面板 -->
+  <audio
+    ref="audioRef"
+    :src="music.current"
+    @loadedmetadata="loadedmetadataEvent"
+    @timeupdate="timeupdateEvent"
+    @ended="endedEvent"
+  ></audio>
   <header>
     <h1 @click="pushIndex">纳西妲图书馆</h1>
     <el-space :size="10">
@@ -90,7 +134,6 @@ footer {
   height: 10%;
 }
 /* ================整体布局============== */
-
 
 h1 {
   font-size: 2rem;

@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { useAudioMetaStore } from '@/stores/audio'
+import { audioOperateKey } from '@/util/keys.js'
 import SvgIcon from './SvgIcon.vue'
 
 const audioMeta = useAudioMetaStore()
-
+const audioOperate = inject(audioOperateKey)!
 const colorHover = '#fdfdfd'
 const colorDefault = '#c6c9ce'
 
 const previousColor = ref(colorDefault)
 const playColor = ref(colorDefault)
 const nextColor = ref(colorDefault)
-
-console.log(previousColor.value)
 </script>
 
 <template>
@@ -21,7 +20,7 @@ console.log(previousColor.value)
     <div class="play-controller">
       <button
         class="play-btn"
-        @click="$emit('handlePrevious')"
+        @click="audioOperate.handlePrevious"
         @mouseover="() => (previousColor = colorHover)"
         @mouseout="() => (previousColor = colorDefault)"
       >
@@ -30,7 +29,7 @@ console.log(previousColor.value)
 
       <button
         class="play-btn"
-        @click="$emit('handlePlay')"
+        @click="audioOperate.handlePlay"
         @mouseover="() => (playColor = colorHover)"
         @mouseout="() => (playColor = colorDefault)"
       >
@@ -40,7 +39,7 @@ console.log(previousColor.value)
 
       <button
         class="play-btn"
-        @click="$emit('handleNext')"
+        @click="audioOperate.handleNext"
         @mouseover="() => (nextColor = colorHover)"
         @mouseout="() => (nextColor = colorDefault)"
       >

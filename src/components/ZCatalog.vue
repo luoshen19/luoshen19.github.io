@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { inject } from 'vue'
+import { audioOperateKey } from '@/util/keys.js'
 import { useMusicStore } from '@/stores/db'
 
 const music = useMusicStore()
+const audioOperate = inject(audioOperateKey)!
 
 // const d = "up"
 // const oldScrollTop = 0
@@ -19,7 +22,7 @@ const scroll = ({ scrollTop }: { scrollTop: number }) => {
         :key="index"
         class="scrollbar-item"
         :class="{ current: index === music.index }"
-        @click="$emit('handleSwitch', index)"
+        @click="audioOperate.handleSwitch(index)"
       >
         {{ '#  ' + item.substring(0, item.lastIndexOf('.')) }}
       </p>
