@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import { useAudioMetaStore } from '@/stores/audio'
 import SvgIcon from './SvgIcon.vue'
 
-
 const audioMeta = useAudioMetaStore()
 
 const colorHover = '#fdfdfd'
@@ -13,8 +12,7 @@ const previousColor = ref(colorDefault)
 const playColor = ref(colorDefault)
 const nextColor = ref(colorDefault)
 
-console.log(previousColor.value);
-
+console.log(previousColor.value)
 </script>
 
 <template>
@@ -24,8 +22,8 @@ console.log(previousColor.value);
       <button
         class="play-btn"
         @click="$emit('handlePrevious')"
-        @mouseover="() => previousColor=colorHover"
-        @mouseout="() => previousColor=colorDefault"
+        @mouseover="() => (previousColor = colorHover)"
+        @mouseout="() => (previousColor = colorDefault)"
       >
         <SvgIcon name="previous" :color="previousColor" />
       </button>
@@ -33,8 +31,8 @@ console.log(previousColor.value);
       <button
         class="play-btn"
         @click="$emit('handlePlay')"
-        @mouseover="() => playColor=colorHover"
-        @mouseout="() => playColor=colorDefault"
+        @mouseover="() => (playColor = colorHover)"
+        @mouseout="() => (playColor = colorDefault)"
       >
         <SvgIcon name="play" v-show="audioMeta.paused" :color="playColor" />
         <SvgIcon name="pause" v-show="!audioMeta.paused" :color="playColor" />
@@ -43,8 +41,8 @@ console.log(previousColor.value);
       <button
         class="play-btn"
         @click="$emit('handleNext')"
-        @mouseover="() => nextColor=colorHover"
-        @mouseout="() => nextColor=colorDefault"
+        @mouseover="() => (nextColor = colorHover)"
+        @mouseout="() => (nextColor = colorDefault)"
       >
         <SvgIcon name="next" :color="nextColor" />
       </button>

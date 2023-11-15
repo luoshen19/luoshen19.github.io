@@ -6,11 +6,9 @@ const music = useMusicStore()
 // const d = "up"
 // const oldScrollTop = 0
 
-const scroll = ({ scrollTop }: {scrollTop: number}) => {
+const scroll = ({ scrollTop }: { scrollTop: number }) => {
   // console.log(scrollTop + "");
-
 }
-
 </script>
 
 <template>
