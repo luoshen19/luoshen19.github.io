@@ -9,5 +9,8 @@
     "nahida02.jpg",
     "nahida03.jpg",
     "nahida04.jpg"
+  ],
+  "background": [
+    "bg_nahida01.png"
   ]
 }
