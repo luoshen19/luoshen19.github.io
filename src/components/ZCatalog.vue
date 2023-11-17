@@ -84,10 +84,12 @@ const scroll = ({ scrollTop }: { scrollTop: number }) => {
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: normal;
+  padding-left: 5px;
+  border-radius: 3px;
 }
 
 .scrollbar-item:hover {
-  color: var(--dark-theme-color-w3);
+  color: var(--color-heading);
 }
 
 /* 修改 ElementUI 官方样式============================================= */
@@ -104,7 +106,7 @@ const scroll = ({ scrollTop }: { scrollTop: number }) => {
 /* 修改 ElementUI 官方样式============================================= */
 
 .current {
-  color: var(--dark-theme-color-w1);
-  background: #202020;
+  color: var(--color-heading);
+  background: var(--color-background-soft);
 }
 </style>

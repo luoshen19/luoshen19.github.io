@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ZCorner from '@/components/ZCorner.vue'
 import { ref, provide } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMusicStore, useImageStore } from '@/stores/db'
@@ -17,6 +18,11 @@ db().then((resp) => {
 })
 
 const audioMeta = useAudioMetaStore()
+
+function changeTheme() {
+  // document.body.setAttribute("theme-mode", "dark");
+  document.body.style.backgroundColor = 'red';
+}
 
 // 当音频的元数据加载完成时触发
 function loadedmetadataEvent() {
@@ -111,11 +117,18 @@ function pushAbout() {
   <main>
     <RouterView></RouterView>
   </main>
-  <footer></footer>
+  <footer>
+    <el-icon color="#fff" size="20"><Sunny /></el-icon>
+  </footer>
+  <ZCorner class="z-corner"></ZCorner>
 </template>
 
 <style scoped>
 /* ================整体布局============== */
+body {
+  position: relative;
+}
+
 header {
   height: 15%;
   padding-top: 2%;
@@ -132,6 +145,12 @@ main {
 
 footer {
   height: 10%;
+}
+
+.z-corner {
+  position: fixed;
+  bottom: 10%;
+  right: 10%;
 }
 /* ================整体布局============== */
 

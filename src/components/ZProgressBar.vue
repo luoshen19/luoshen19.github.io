@@ -70,17 +70,15 @@ function getProgress(event: MouseEvent) {
 .slider-rail {
   position: absolute;
   width: 100%;
-  background-color: var(--dark-theme-color-b2);
+  background-color: var(--color-border);
   height: 2px;
-  border-radius: 6px;
 }
 
 .slider-track {
   position: absolute;
   left: 0;
   height: 2px;
-  border-radius: 6px;
-  background-color: var(--dark-theme-color-w3);
+  background-color: var(--color-text);
 }
 
 .slider-handle {
@@ -90,8 +88,8 @@ function getProgress(event: MouseEvent) {
   height: 12px;
   margin-top: -5px;
   border-radius: 50%;
-  border: 2px solid var(--dark-theme-color-w3);
-  background-color: var(--dark-theme-color-w3);
+  border: 2px solid var(--color-text);
+  background-color: var(--color-heading);
   touch-action: pan-x;
   box-shadow: none;
 }
