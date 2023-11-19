@@ -21,7 +21,7 @@ const audioMeta = useAudioMetaStore()
 
 function changeTheme() {
   // document.body.setAttribute("theme-mode", "dark");
-  document.body.style.backgroundColor = 'red';
+  document.body.style.backgroundColor = 'red'
 }
 
 // 当音频的元数据加载完成时触发
@@ -117,9 +117,7 @@ function pushAbout() {
   <main>
     <RouterView></RouterView>
   </main>
-  <footer>
-    <el-icon color="#fff" size="20"><Sunny /></el-icon>
-  </footer>
+  <footer></footer>
   <ZCorner class="z-corner"></ZCorner>
 </template>
 

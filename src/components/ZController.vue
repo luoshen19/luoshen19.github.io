@@ -6,33 +6,23 @@ import SvgIcon from './SvgIcon.vue'
 
 const audioMeta = useAudioMetaStore()
 const audioOperate = inject(audioOperateKey)!
-
 </script>
 
 <template>
   <div class="z-controller">
     <!-- 播放控制 -->
     <div class="play-controller">
-      <button
-        class="play-btn"
-        @click="audioOperate.handlePrevious"
-      >
-        <SvgIcon name="previous"/>
+      <button class="play-btn" @click="audioOperate.handlePrevious">
+        <SvgIcon name="previous" />
       </button>
 
-      <button
-        class="play-btn"
-        @click="audioOperate.handlePlay"
-      >
-        <SvgIcon name="play" v-show="audioMeta.paused"/>
-        <SvgIcon name="pause" v-show="!audioMeta.paused"/>
+      <button class="play-btn" @click="audioOperate.handlePlay">
+        <SvgIcon name="play" v-show="audioMeta.paused" />
+        <SvgIcon name="pause" v-show="!audioMeta.paused" />
       </button>
 
-      <button
-        class="play-btn"
-        @click="audioOperate.handleNext"
-      >
-        <SvgIcon name="next"/>
+      <button class="play-btn" @click="audioOperate.handleNext">
+        <SvgIcon name="next" />
       </button>
 
       <span></span>
