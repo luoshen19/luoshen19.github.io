@@ -19,11 +19,6 @@ db().then((resp) => {
 
 const audioMeta = useAudioMetaStore()
 
-function changeTheme() {
-  // document.body.setAttribute("theme-mode", "dark");
-  document.body.style.backgroundColor = 'red'
-}
-
 // 当音频的元数据加载完成时触发
 function loadedmetadataEvent() {
   audioMeta.currentTime = audioRef.value!.currentTime
@@ -147,8 +142,8 @@ footer {
 
 .z-corner {
   position: fixed;
-  bottom: 10%;
-  right: 10%;
+  bottom: 5%;
+  right: 5%;
 }
 /* ================整体布局============== */
 
