@@ -1,32 +1,23 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-
-import ZIllustration from '@/components/ZIllustration.vue'
-import ZController from '@/components/ZController.vue'
-import ZCatalog from '@/components/ZCatalog.vue'
-import ZProgressBar from '@/components/ZProgressBar.vue'
-import { db } from '@/api/githubApi'
+import ZCorner from '@/components/ZCorner.vue'
+import { ref, provide } from 'vue'
+import { useRouter } from 'vue-router'
 import { useMusicStore, useImageStore } from '@/stores/db'
 import { useAudioMetaStore } from '@/stores/audio'
+import { audioKey, audioOperateKey } from './util/keys.js'
+import { db } from '@/api/githubApi'
+
+const audioRef = ref<HTMLAudioElement>()
+provide(audioKey, audioRef)
 
 const music = useMusicStore()
 const image = useImageStore()
-const audioMeta = useAudioMetaStore()
 db().then((resp) => {
   music.init(resp.musicList)
   image.init(resp.imageList)
 })
 
-const audioRef = ref<HTMLAudioElement>()
-
-watch(
-  () => audioMeta.sliderPos,
-  (sliderPos) => {
-    console.log(sliderPos)
-    audioRef.value!.currentTime = parseFloat((audioRef.value!.duration * sliderPos).toFixed(2))
-    audioMeta.currentTime = audioRef.value!.duration * sliderPos
-  }
-)
+const audioMeta = useAudioMetaStore()
 
 // 当音频的元数据加载完成时触发
 function loadedmetadataEvent() {
@@ -40,10 +31,12 @@ function timeupdateEvent() {
 }
 // 一首歌播放结束时触发
 function endedEvent() {
-  console.log('111')
+  console.log('1111')
 
-  handleNext()
+  // handleNext()
 }
+
+// audio 操作 =====================
 
 // 播放
 function handlePlay() {
@@ -81,47 +74,61 @@ function switchMusic(callback: () => void) {
   // 重新加载音频
   audioRef.value!.load()
 }
+
+provide(audioOperateKey, {
+  handlePlay: handlePlay,
+  handlePrevious: handlePrevious,
+  handleNext: handleNext,
+  handleSwitch: handleSwitch
+})
+
+// 路由 ===========================
+const router = useRouter()
+
+function pushIndex() {
+  router.push('/')
+}
+
+function pushAbout() {
+  router.push('/about')
+}
 </script>
 
 <template>
-  <header></header>
+  <!-- controls 显示面板 -->
+  <audio
+    ref="audioRef"
+    :src="music.current"
+    @loadedmetadata="loadedmetadataEvent"
+    @timeupdate="timeupdateEvent"
+    @ended="endedEvent"
+  ></audio>
+  <header>
+    <h1 @click="pushIndex">纳西妲图书馆</h1>
+    <el-space :size="10">
+      <span @click="pushAbout">关于</span>
+    </el-space>
+  </header>
   <main>
-    <!-- controls 显示面板 -->
-    <audio
-      ref="audioRef"
-      :src="music.current"
-      @loadedmetadata="loadedmetadataEvent"
-      @timeupdate="timeupdateEvent"
-      @ended="endedEvent"
-    ></audio>
-    <div class="main-1">
-      <ZIllustration />
-      <ZProgressBar class="main-bottom" />
-    </div>
-
-    <div class="main-2"></div>
-
-    <div class="main-3">
-      <ZCatalog @handleSwitch="handleSwitch" />
-      <ZController
-        class="main-bottom"
-        @handle-previous="handlePrevious"
-        @handle-play="handlePlay"
-        @handle-next="handleNext"
-      />
-    </div>
-
-    <div class="main-4"></div>
+    <RouterView></RouterView>
   </main>
   <footer></footer>
+  <ZCorner class="z-corner"></ZCorner>
 </template>
 
 <style scoped>
 /* ================整体布局============== */
+body {
+  position: relative;
+}
+
 header {
   height: 15%;
-  padding-top: 1%;
-  padding-bottom: 2%;
+  padding-top: 2%;
+  padding-bottom: 3%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 main {
@@ -132,30 +139,21 @@ main {
 footer {
   height: 10%;
 }
+
+.z-corner {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+}
 /* ================整体布局============== */
 
-/* ================main布局============== */
-.main-1 {
-  width: 50vh;
-  position: relative;
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
 }
 
-.main-2 {
-  flex: 1;
-}
-
-.main-3 {
-  width: 50vh;
-  position: relative;
-}
-
-.main-4 {
-  flex: 2;
-}
-/* ================main布局============== */
-
-.main-bottom {
-  position: absolute;
-  bottom: 0;
+span {
+  font-size: 1.3rem;
+  font-weight: 500;
 }
 </style>

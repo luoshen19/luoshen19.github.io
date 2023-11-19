@@ -1,52 +1,28 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { inject } from 'vue'
 import { useAudioMetaStore } from '@/stores/audio'
+import { audioOperateKey } from '@/util/keys.js'
 import SvgIcon from './SvgIcon.vue'
 
-
 const audioMeta = useAudioMetaStore()
-
-const colorHover = '#fdfdfd'
-const colorDefault = '#c6c9ce'
-
-const previousColor = ref(colorDefault)
-const playColor = ref(colorDefault)
-const nextColor = ref(colorDefault)
-
-console.log(previousColor.value);
-
+const audioOperate = inject(audioOperateKey)!
 </script>
 
 <template>
   <div class="z-controller">
     <!-- 播放控制 -->
     <div class="play-controller">
-      <button
-        class="play-btn"
-        @click="$emit('handlePrevious')"
-        @mouseover="() => previousColor=colorHover"
-        @mouseout="() => previousColor=colorDefault"
-      >
-        <SvgIcon name="previous" :color="previousColor" />
+      <button class="play-btn" @click="audioOperate.handlePrevious">
+        <SvgIcon name="previous" />
       </button>
 
-      <button
-        class="play-btn"
-        @click="$emit('handlePlay')"
-        @mouseover="() => playColor=colorHover"
-        @mouseout="() => playColor=colorDefault"
-      >
-        <SvgIcon name="play" v-show="audioMeta.paused" :color="playColor" />
-        <SvgIcon name="pause" v-show="!audioMeta.paused" :color="playColor" />
+      <button class="play-btn" @click="audioOperate.handlePlay">
+        <SvgIcon name="play" v-show="audioMeta.paused" />
+        <SvgIcon name="pause" v-show="!audioMeta.paused" />
       </button>
 
-      <button
-        class="play-btn"
-        @click="$emit('handleNext')"
-        @mouseover="() => nextColor=colorHover"
-        @mouseout="() => nextColor=colorDefault"
-      >
-        <SvgIcon name="next" :color="nextColor" />
+      <button class="play-btn" @click="audioOperate.handleNext">
+        <SvgIcon name="next" />
       </button>
 
       <span></span>
