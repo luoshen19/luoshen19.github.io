@@ -20,6 +20,22 @@ const image = useImageStore()
         <span class="el-image-slot">老大哥在看着你</span>
       </template>
     </el-image>
+
+    <!-- <el-skeleton style="width: 100%; height: 100%;" :loading="true" animated>
+      <template #template>
+        <el-skeleton-item variant="text" style="width: 100%; height: 100%;" />
+      </template>
+      <template #default>
+        <el-image :src="image.current" fit="cover">
+        <template #placeholder>
+          <span class="el-image-slot">老大哥在看着你</span>
+        </template>
+        <template #error>
+          <span class="el-image-slot">老大哥在看着你</span>
+        </template>
+      </el-image>
+      </template>
+    </el-skeleton> -->
   </div>
 </template>
 

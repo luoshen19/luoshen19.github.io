@@ -6,7 +6,7 @@ import { ThemeEnum } from '@/config/themeEnum'
 let currentTheme = ref(localStorage.getItem('theme') ?? ThemeEnum.DEFAULT)
 
 function switchTheme() {
-  currentTheme.value = (currentTheme.value === ThemeEnum.DARK) ? ThemeEnum.LIGHT : ThemeEnum.DARK
+  currentTheme.value = currentTheme.value === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK
   document.documentElement.setAttribute('theme-mode', currentTheme.value)
   localStorage.setItem('theme', currentTheme.value)
 }
@@ -16,10 +16,10 @@ function switchTheme() {
   <div class="z-corner">
     <div class="theme" @click="switchTheme">
       <span class="theme-svg" v-show="currentTheme === ThemeEnum.DARK">
-        <SvgIcon name="moon"/>
+        <SvgIcon name="moon" />
       </span>
       <span class="theme-svg" v-show="currentTheme === ThemeEnum.LIGHT">
-        <SvgIcon name="sun"/>
+        <SvgIcon name="sun" />
       </span>
     </div>
   </div>
