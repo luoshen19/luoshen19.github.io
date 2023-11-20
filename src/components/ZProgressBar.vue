@@ -2,9 +2,22 @@
 import { ref } from 'vue'
 import { useAudioMetaStore } from '@/stores/audio'
 import { CommonUtils } from '@/util/commonUtils'
+import { DirectionEnum } from '@/enums/directionEnum'
 
 const audioMeta = useAudioMetaStore()
 const sliderRef = ref<HTMLDivElement>()
+
+export interface TimeDisplayMode {
+  position?: DirectionEnum
+  distance?: string
+  size?: string
+}
+
+withDefaults(defineProps<TimeDisplayMode>(), {
+  position: DirectionEnum.UP,
+  distance: '10px',
+  size: '1rem'
+})
 
 function getProgress(event: MouseEvent) {
   const sliderWidth = sliderRef.value!.offsetWidth
@@ -16,10 +29,15 @@ function getProgress(event: MouseEvent) {
 <template>
   <div class="z-progress-bar">
     <!-- 时间 -->
-    <div class="progress-time">
-      <div class="time-content">{{ CommonUtils.toFormatTime(audioMeta.currentTime) }}</div>
-      <div class="time-content">{{ CommonUtils.toFormatTime(audioMeta.duration) }}</div>
+    <div
+      class="progress-time"
+      :style="`margin-bottom: ${distance}; font-size: ${size};`"
+      v-show="position === DirectionEnum.UP"
+    >
+      <div>{{ CommonUtils.toFormatTime(audioMeta.currentTime) }}</div>
+      <div>{{ CommonUtils.toFormatTime(audioMeta.duration) }}</div>
     </div>
+
     <!-- 时间进度条 -->
     <div class="progressbar">
       <div ref="sliderRef" class="slider" @click.self="getProgress">
@@ -34,6 +52,16 @@ function getProgress(event: MouseEvent) {
         ></div>
       </div>
     </div>
+
+    <!-- 时间 -->
+    <div
+      class="progress-time"
+      :style="`margin-top: ${distance}; font-size: ${size};`"
+      v-show="position === DirectionEnum.DOWN"
+    >
+      <div class="time-content">{{ CommonUtils.toFormatTime(audioMeta.currentTime) }}</div>
+      <div class="time-content">{{ CommonUtils.toFormatTime(audioMeta.duration) }}</div>
+    </div>
   </div>
 </template>
 
@@ -47,14 +75,6 @@ function getProgress(event: MouseEvent) {
   user-select: none;
   display: flex;
   justify-content: space-between;
-}
-
-.time-content {
-  font-size: 1rem;
-}
-
-.progressbar {
-  margin-top: 10px;
 }
 
 .slider {

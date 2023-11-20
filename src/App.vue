@@ -4,6 +4,7 @@ import { ref, provide } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMusicStore, useImageStore } from '@/stores/db'
 import { useAudioMetaStore } from '@/stores/audio'
+import { useConfigStore } from '@/stores/config'
 import { audioKey, audioOperateKey } from './util/keys.js'
 import { db } from '@/api/githubApi'
 
@@ -12,6 +13,10 @@ provide(audioKey, audioRef)
 
 const music = useMusicStore()
 const image = useImageStore()
+const config = useConfigStore()
+// 马上更新一次设备
+config.updateDevice()
+
 db().then((resp) => {
   music.init(resp.musicList)
   image.init(resp.imageList)
@@ -19,6 +24,7 @@ db().then((resp) => {
 
 const audioMeta = useAudioMetaStore()
 
+// audio 事件 =====================
 // 当音频的元数据加载完成时触发
 function loadedmetadataEvent() {
   audioMeta.currentTime = audioRef.value!.currentTime
@@ -31,13 +37,11 @@ function timeupdateEvent() {
 }
 // 一首歌播放结束时触发
 function endedEvent() {
-  console.log('1111')
-
-  // handleNext()
+  handleNext()
 }
+// audio 事件 =====================
 
 // audio 操作 =====================
-
 // 播放
 function handlePlay() {
   if (audioRef.value!.paused) {
@@ -81,6 +85,7 @@ provide(audioOperateKey, {
   handleNext: handleNext,
   handleSwitch: handleSwitch
 })
+// audio 操作 =====================
 
 // 路由 ===========================
 const router = useRouter()
@@ -92,6 +97,11 @@ function pushIndex() {
 function pushAbout() {
   router.push('/about')
 }
+// 路由 ===========================
+
+window.addEventListener('resize', () => {
+  config.updateDevice()
+})
 </script>
 
 <template>
@@ -103,17 +113,21 @@ function pushAbout() {
     @timeupdate="timeupdateEvent"
     @ended="endedEvent"
   ></audio>
-  <header>
+
+  <header v-show="!config.isMoible">
     <h1 @click="pushIndex">纳西妲图书馆</h1>
     <el-space :size="10">
       <span @click="pushAbout">关于</span>
     </el-space>
   </header>
-  <main>
+
+  <main :class="{ 'main-moible': config.isMoible }">
     <RouterView></RouterView>
   </main>
-  <footer></footer>
-  <ZCorner class="z-corner"></ZCorner>
+
+  <footer v-show="!config.isMoible"></footer>
+
+  <ZCorner v-show="!config.isMoible" class="z-corner"></ZCorner>
 </template>
 
 <style scoped>
@@ -134,6 +148,11 @@ header {
 main {
   height: 75%;
   display: flex;
+}
+
+.main-moible {
+  width: 100%;
+  height: 100%;
 }
 
 footer {
