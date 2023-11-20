@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useImageStore } from '@/stores/db'
+import { useConfigStore } from '@/stores/config'
 
 const image = useImageStore()
+const config = useConfigStore()
 
 // setInterval(() => {
 //   // console.log(Math.random() * 100);
@@ -11,7 +13,7 @@ const image = useImageStore()
 </script>
 
 <template>
-  <div class="z-illustration">
+  <div class="z-illustration" :class="{ 'z-illustration-moible': config.isMoible }">
     <el-image :src="image.current" fit="cover">
       <template #placeholder>
         <span class="el-image-slot">老大哥在看着你</span>
@@ -44,6 +46,11 @@ const image = useImageStore()
   width: 50vh;
   height: 50vh;
   margin-bottom: 11px;
+}
+
+.z-illustration-moible {
+  width: 80vw;
+  height: 80vw;
 }
 
 .el-image {

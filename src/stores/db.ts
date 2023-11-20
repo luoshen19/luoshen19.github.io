@@ -37,8 +37,6 @@ export const useMusicStore = defineStore('music', () => {
   return { index, current, list, init, previous, next, random, change }
 })
 
-
-
 export const useImageStore = defineStore('image', () => {
   const index = ref(-1)
   const current = ref<string>()

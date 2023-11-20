@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import SvgIcon from './SvgIcon.vue'
-import { ThemeEnum } from '@/config/themeEnum'
+import { ThemeEnum } from '@/enums/themeEnum'
 
 let currentTheme = ref(localStorage.getItem('theme') ?? ThemeEnum.DEFAULT)
 
