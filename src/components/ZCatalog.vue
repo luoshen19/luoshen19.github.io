@@ -24,7 +24,7 @@ const scroll = ({ scrollTop }: { scrollTop: number }) => {
         :class="{ current: index === music.index }"
         @click="audioOperate.handleSwitch(index)"
       >
-        {{ '#  ' + item.substring(0, item.lastIndexOf('.')) }}
+        {{ '#  ' + item.substring(0, item.lastIndexOf('.')).replace(/_/g, ' ') }}
       </p>
     </el-scrollbar>
 

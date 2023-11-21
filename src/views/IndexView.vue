@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { inject, watch } from 'vue'
 import ZIllustration from '@/components/ZIllustration.vue'
 import ZController from '@/components/ZController.vue'
 import MController from '@/components/MController.vue'
 import ZCatalog from '@/components/ZCatalog.vue'
 import ZProgressBar from '@/components/ZProgressBar.vue'
 
+import { inject, watch } from 'vue'
 import { useAudioMetaStore } from '@/stores/audio'
 import { useConfigStore } from '@/stores/config'
 import { audioKey } from '@/util/keys.js'
@@ -26,7 +26,7 @@ watch(
 </script>
 
 <template>
-  <div class="main-1" :class="{'main-1-moible': config.isMoible}">
+  <div class="main-1" :class="{ 'main-1-moible': config.isMoible }">
     <ZIllustration />
     <div class="main-bottom-moible" v-if="config.isMoible">
       <MController />
@@ -82,6 +82,5 @@ watch(
 
 .main-bottom-moible {
   width: 80%;
-  margin-top: 30%;
 }
 </style>

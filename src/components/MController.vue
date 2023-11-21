@@ -1,40 +1,75 @@
-  <!-- 移动端组件 功能: [控制音乐播放 | 进度条] -->
+<!-- 移动端组件 功能: [控制音乐播放 | 进度条] -->
 <script setup lang="ts">
 import ZProgressBar from '@/components/ZProgressBar.vue'
 import SvgIcon from './SvgIcon.vue'
-import { inject } from 'vue'
+
+import { inject, ref } from 'vue'
+import { useMusicStore } from '@/stores/db'
 import { useAudioMetaStore } from '@/stores/audio'
 import { audioOperateKey } from '@/util/keys.js'
 import { DirectionEnum } from '@/enums/directionEnum'
 
+const music = useMusicStore()
 const audioMeta = useAudioMetaStore()
 const audioOperate = inject(audioOperateKey)!
+
+const likeMisicListKey = 'likeMisicList'
+const likeMisicList = ref<number[]>(JSON.parse(localStorage.getItem(likeMisicListKey) ?? '[]'))
+
+function likeEvent() {
+  // 存在取消
+  if (likeMisicList.value.includes(music.index)) {
+    likeMisicList.value = likeMisicList.value.filter((it) => it !== music.index)
+  } else {
+    likeMisicList.value.push(music.index)
+  }
+  localStorage.setItem(likeMisicListKey, JSON.stringify(likeMisicList.value))
+}
 </script>
 
 <template>
   <div class="z-controller">
-    <ZProgressBar :position="DirectionEnum.DOWN" distance="7px" size="0.7rem" />
+    <div class="menu">
+      <button class="menu-btn">
+        <SvgIcon name="play-list" color="var(--color-heading)" />
+      </button>
+
+      <button class="menu-btn" @click="likeEvent">
+        <SvgIcon
+          name="like"
+          color="var(--color-heading)"
+          v-show="!likeMisicList.includes(music.index)"
+        />
+        <!-- 爱心的颜色是初音发带的颜色 -->
+        <SvgIcon
+          name="like-fill"
+          color="#F52154"
+          hover-color="#F52154"
+          v-show="likeMisicList.includes(music.index)"
+        />
+      </button>
+
+      <button class="menu-btn">
+        <SvgIcon name="shuffle" color="var(--color-heading)" />
+      </button>
+    </div>
+
+    <ZProgressBar :position="DirectionEnum.DOWN" distance="0.4rem" size="0.7rem" />
 
     <!-- 播放控制 -->
     <div class="play-controller">
-      <span></span>
-      <span></span>
-
-      <button class="play-btn" @click="audioOperate.handlePrevious">
-        <SvgIcon name="previous" />
+      <button class="controller-btn controller-btn-previous" @click="audioOperate.handlePrevious">
+        <SvgIcon name="next_v2" color="var(--color-heading)" />
       </button>
 
-      <button class="play-btn" @click="audioOperate.handlePlay">
-        <SvgIcon name="play" v-show="audioMeta.paused" />
-        <SvgIcon name="pause" v-show="!audioMeta.paused" />
+      <button class="controller-btn controller-btn-play" @click="audioOperate.handlePlay">
+        <SvgIcon name="play_v2" color="var(--color-heading)" v-show="audioMeta.paused" />
+        <SvgIcon name="pause_v2" color="var(--color-heading)" v-show="!audioMeta.paused" />
       </button>
 
-      <button class="play-btn" @click="audioOperate.handleNext">
-        <SvgIcon name="next" />
+      <button class="controller-btn" @click="audioOperate.handleNext">
+        <SvgIcon name="next_v2" color="var(--color-heading)" />
       </button>
-
-      <span></span>
-      <span></span>
     </div>
   </div>
 </template>
@@ -44,21 +79,36 @@ const audioOperate = inject(audioOperateKey)!
   width: 100%;
 }
 
-.play-controller {
-  margin-top: 20px;
+.menu {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 1.5rem;
 }
 
-/* btn 默认样式去除 */
-.play-btn {
-  width: 37px;
-  height: 37px;
-  appearance: none;
-  -webkit-appearance: none;
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
+.menu-btn {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.play-controller {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.controller-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.controller-btn-previous {
+  transform: rotate(180deg);
+}
+
+.controller-btn-play {
+  width: 1.7rem;
+  height: 1.7rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
 }
 </style>

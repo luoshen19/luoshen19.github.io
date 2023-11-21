@@ -45,7 +45,7 @@ const config = useConfigStore()
 .z-illustration {
   width: 50vh;
   height: 50vh;
-  margin-bottom: 11px;
+  margin-bottom: 1rem;
 }
 
 .z-illustration-moible {

@@ -1,29 +1,44 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 export interface Props {
   /** icon 名称 */
   name: string
   /** icon 的尺寸 */
   size?: string
+  /** icon 的颜色 */
+  color?: string
+  /** icon 的hover颜色 */
+  hoverColor?: string
 }
 
-withDefaults(defineProps<Props>(), {
-  size: '100%'
+const props = withDefaults(defineProps<Props>(), {
+  size: '100%',
+  color: 'var(--color-text)',
+  hoverColor: 'var(--color-heading)'
 })
+
+const svgColor = ref(props.color)
+
+function handleMouseOver() {
+  svgColor.value = props.hoverColor
+  console.log(svgColor.value)
+}
+
+function handleMouseOut() {
+  svgColor.value = props.color
+  console.log(svgColor.value)
+}
 </script>
 
 <template>
-  <svg :style="{ width: size, height: size }" class="svg-icon-wrapper">
+  <svg
+    :style="{ width: size, height: size, color: svgColor, fill: svgColor }"
+    @mouseover="handleMouseOver"
+    @mouseout="handleMouseOut"
+  >
     <use :xlink:href="'#icon-' + name"></use>
   </svg>
 </template>
 
-<style>
-.svg-icon-wrapper {
-  display: inline-block;
-  color: var(--color-text);
-}
-
-.svg-icon-wrapper:hover {
-  color: var(--color-heading);
-}
-</style>
+<style scoped></style>
