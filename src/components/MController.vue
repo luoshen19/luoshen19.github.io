@@ -4,17 +4,25 @@ import ZProgressBar from '@/components/ZProgressBar.vue'
 import SvgIcon from './SvgIcon.vue'
 
 import { inject, ref } from 'vue'
+
 import { useMusicStore } from '@/stores/db'
 import { useAudioMetaStore } from '@/stores/audio'
-import { audioOperateKey } from '@/util/keys.js'
-import { DirectionEnum } from '@/enums/directionEnum'
+import { usePlayConfigStore } from '@/stores/config'
 
-const music = useMusicStore()
-const audioMeta = useAudioMetaStore()
+import { audioOperateKey, keyLikeMisicList } from '@/util/keys.js'
+import { DirectionEnum } from '@/enums/directionEnum'
+import { PlayStrategyEnum } from '@/enums/playStrategyEnum'
+
+
 const audioOperate = inject(audioOperateKey)!
 
-const likeMisicListKey = 'likeMisicList'
-const likeMisicList = ref<number[]>(JSON.parse(localStorage.getItem(likeMisicListKey) ?? '[]'))
+const music = useMusicStore()
+const playConfig = usePlayConfigStore()
+const audioMeta = useAudioMetaStore()
+// 初始化 ==========================================
+playConfig.init()
+// 初始化 ==========================================
+const likeMisicList = ref<number[]>(JSON.parse(localStorage.getItem(keyLikeMisicList) ?? '[]'))
 
 function likeEvent() {
   // 存在取消
@@ -23,7 +31,7 @@ function likeEvent() {
   } else {
     likeMisicList.value.push(music.index)
   }
-  localStorage.setItem(likeMisicListKey, JSON.stringify(likeMisicList.value))
+  localStorage.setItem(keyLikeMisicList, JSON.stringify(likeMisicList.value))
 }
 </script>
 
@@ -49,8 +57,10 @@ function likeEvent() {
         />
       </button>
 
-      <button class="menu-btn">
-        <SvgIcon name="shuffle" color="var(--color-heading)" />
+      <button class="menu-btn" @click="playConfig.updatePlayStrategy">
+        <SvgIcon name="repeat" color="var(--color-heading)" v-show="playConfig.playStrategy == PlayStrategyEnum.REPEAT" />
+        <SvgIcon name="repeat-one" color="var(--color-heading)" v-show="playConfig.playStrategy == PlayStrategyEnum.REPEAT_ONE" />
+        <SvgIcon name="shuffle" color="var(--color-heading)" v-show="playConfig.playStrategy == PlayStrategyEnum.SHUFFLE" />
       </button>
     </div>
 

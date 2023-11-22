@@ -8,3 +8,9 @@ export const audioOperateKey = Symbol() as InjectionKey<{
   handleNext: () => void
   handleSwitch: (musicIndex: number) => void
 }>
+
+
+// localStorage key ==========================================
+export const keyPlayStrategy = "playStrategy"
+export const keyLikeMisicList = 'likeMisicList'
+// localStorage key ==========================================

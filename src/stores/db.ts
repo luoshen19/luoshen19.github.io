@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useMusicStore = defineStore('music', () => {
-  const index = ref(-1)
+  const index = ref(0)
   const current = ref<string>()
   const list = ref<string[]>([])
   const baseURL4Music = import.meta.env.VITE_RESOURCE_URL + '/music/'
@@ -38,7 +38,7 @@ export const useMusicStore = defineStore('music', () => {
 })
 
 export const useImageStore = defineStore('image', () => {
-  const index = ref(-1)
+  const index = ref(0)
   const current = ref<string>()
   const list = ref<string[]>([])
   const baseURL4Image = import.meta.env.VITE_RESOURCE_URL + '/image/'
