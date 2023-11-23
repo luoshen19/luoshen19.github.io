@@ -8,6 +8,7 @@ export enum PlayStrategyEnum {
 }
 
 export function str2PlayStrategyEnum(str: string): PlayStrategyEnum {
+  // TODO 异常返回一个默认值
   return Object.values(PlayStrategyEnum).find(value => value === str) as PlayStrategyEnum;;
 }
 

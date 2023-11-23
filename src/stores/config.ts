@@ -7,14 +7,22 @@ import { PlayStrategyEnum, str2PlayStrategyEnum, getNextPlayStrategyEnum } from 
 export const useConfigStore = defineStore('config', () => {
   const isMoible = ref(false)
 
+  function init() {
+    updateDevice()
+  }
+
   function updateDevice() {
     isMoible.value = window.matchMedia('(max-width: 768px)').matches
   }
 
-  return { isMoible, updateDevice }
+  return { isMoible, init, updateDevice }
 })
 
 export const usePlayConfigStore = defineStore('playConfig', () => {
+
+  const musicIndex = ref(0)
+  const imageIndex = ref(0)
+  const baseURL4Music = import.meta.env.VITE_RESOURCE_URL + '/music/'
 
   const playStrategy = ref(PlayStrategyEnum.REPEAT)
 
@@ -33,5 +41,9 @@ export const usePlayConfigStore = defineStore('playConfig', () => {
     localStorage.setItem(keyPlayStrategy, tmp)
   }
 
-  return { playStrategy, init, updatePlayStrategy }
+  return { 
+    playStrategy, init, updatePlayStrategy,
+    musicIndex,
+    imageIndex
+  }
 })

@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import ZCorner from '@/components/ZCorner.vue'
+
 import { ref, provide } from 'vue'
 import { useRouter } from 'vue-router'
+
 import { useMusicStore, useImageStore } from '@/stores/db'
 import { useAudioMetaStore } from '@/stores/audio'
 import { useConfigStore } from '@/stores/config'
+
 import { audioKey, audioOperateKey } from './util/keys.js'
-import { db } from '@/api/githubApi'
+import { getResource } from '@/api/githubApi'
 
 const audioRef = ref<HTMLAudioElement>()
 provide(audioKey, audioRef)
@@ -14,15 +17,14 @@ provide(audioKey, audioRef)
 const music = useMusicStore()
 const image = useImageStore()
 const config = useConfigStore()
+const audioMeta = useAudioMetaStore()
 // 马上更新一次设备
 config.updateDevice()
 
-db().then((resp) => {
+getResource().then((resp) => {
   music.init(resp.musicList)
   image.init(resp.imageList)
 })
-
-const audioMeta = useAudioMetaStore()
 
 // audio 事件 =====================
 // 当音频的元数据加载完成时触发

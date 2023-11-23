@@ -5,7 +5,7 @@ const githubApi = axios.create({
   timeout: 5000
 })
 
-export async function db(): Promise<DbEntity> {
+export async function getResource(): Promise<DbEntity> {
   try {
     const resp = await githubApi.get('/db.json')
     return new DbEntity(resp.data['musicList'], resp.data['imageList'])

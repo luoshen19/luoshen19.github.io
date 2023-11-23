@@ -12,5 +12,6 @@ export const audioOperateKey = Symbol() as InjectionKey<{
 
 // localStorage key ==========================================
 export const keyPlayStrategy = "playStrategy"
-export const keyLikeMisicList = 'likeMisicList'
+export const keyLikeMisicList = "likeMisicList"
+export const keyMusicIndex = "keyMusicIndex"
 // localStorage key ==========================================
