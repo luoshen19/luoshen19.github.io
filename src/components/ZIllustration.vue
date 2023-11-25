@@ -9,7 +9,6 @@ const config = useConfigStore()
 
 const imageUrl = inject(keyImageUrl)!
 
-
 // setInterval(() => {
 //   // console.log(Math.random() * 100);
 //   image.next()
@@ -17,7 +16,7 @@ const imageUrl = inject(keyImageUrl)!
 </script>
 
 <template>
-  <div class="z-illustration" :class="{ 'z-illustration-moible': config.isMoible }">
+  <div class="z-illustration" :class="{ 'z-illustration-moible': config.isMobile }">
     <el-image :src="imageUrl" fit="cover">
       <template #placeholder>
         <span class="el-image-slot">老大哥在看着你</span>

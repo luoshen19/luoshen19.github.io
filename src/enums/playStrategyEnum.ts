@@ -1,4 +1,3 @@
-
 export enum PlayStrategyEnum {
   // 顺序循环
   REPEAT = 'REPEAT',

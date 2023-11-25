@@ -1,22 +1,19 @@
 <script setup lang="ts">
 import { inject } from 'vue'
 
-import { useResourceStore } from "@/stores/db";
-import { usePlayerStore } from "@/stores/player";
+import { useResourceStore } from '@/stores/db'
+import { usePlayerStore } from '@/stores/player'
 
-import { useGetMusicUrl } from "@/use/resourceUrl";
+import { useGetMusicUrl } from '@/use/resourceUrl'
 
 import { keyMusicUrl } from '@/util/keys.js'
-
 
 const musicUrl = inject(keyMusicUrl)!
 
 const resource = useResourceStore()
 const player = usePlayerStore()
 
-
-
-const d = "up"
+const d = 'up'
 const oldScrollTop = 0
 
 const scroll = ({ scrollTop }: { scrollTop: number }) => {

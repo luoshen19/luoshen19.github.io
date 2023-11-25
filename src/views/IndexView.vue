@@ -8,13 +8,12 @@ import ZProgressBar from '@/components/ZProgressBar.vue'
 import { useConfigStore } from '@/stores/config'
 
 const config = useConfigStore()
-
 </script>
 
 <template>
-  <div class="main-1" :class="{ 'main-1-moible': config.isMoible }">
+  <div class="main-1" :class="{ 'main-1-moible': config.isMobile }">
     <ZIllustration />
-    <div class="main-bottom-moible" v-if="config.isMoible">
+    <div class="main-bottom-moible" v-if="config.isMobile">
       <MController />
     </div>
     <div class="main-bottom" v-else>
@@ -22,14 +21,14 @@ const config = useConfigStore()
     </div>
   </div>
 
-  <div class="main-2" v-show="!config.isMoible"></div>
+  <div class="main-2" v-show="!config.isMobile"></div>
 
-  <div class="main-3" v-show="!config.isMoible">
+  <div class="main-3" v-show="!config.isMobile">
     <ZCatalog />
     <ZController class="main-bottom" />
   </div>
 
-  <div class="main-4" v-show="!config.isMoible"></div>
+  <div class="main-4" v-show="!config.isMobile"></div>
 </template>
 
 <style scoped>

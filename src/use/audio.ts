@@ -71,7 +71,8 @@ export function useGetCurrentMusicIndex(len: number): number {
 export function useGetNextMusicIndex(
   currentIndex: number,
   len: number,
-  playStrategy: PlayStrategyEnum
+  playStrategy: PlayStrategyEnum,
+  history: number[]
 ) {
   if (playStrategy == PlayStrategyEnum.REPEAT) {
     return (currentIndex + len + 1) % len
