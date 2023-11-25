@@ -5,24 +5,10 @@ import MController from '@/components/MController.vue'
 import ZCatalog from '@/components/ZCatalog.vue'
 import ZProgressBar from '@/components/ZProgressBar.vue'
 
-import { inject, watch } from 'vue'
-import { useAudioMetaStore } from '@/stores/audio'
 import { useConfigStore } from '@/stores/config'
-import { audioKey } from '@/util/keys.js'
 
-const audioRef = inject(audioKey)!
-
-const audioMeta = useAudioMetaStore()
 const config = useConfigStore()
 
-watch(
-  () => audioMeta.sliderPos,
-  (sliderPos) => {
-    console.log(sliderPos)
-    audioRef.value!.currentTime = parseFloat((audioRef.value!.duration * sliderPos).toFixed(2))
-    audioMeta.currentTime = audioRef.value!.duration * sliderPos
-  }
-)
 </script>
 
 <template>

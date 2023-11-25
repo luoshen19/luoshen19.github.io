@@ -16,6 +16,8 @@ if (currentTheme != null) {
 
 const app = createApp(App)
 
+app.config.globalProperties.isMoible = window.matchMedia('(max-width: 768px)').matches
+
 app.use(createPinia())
 app.use(router)
 

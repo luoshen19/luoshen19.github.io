@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useImageStore } from '@/stores/db'
+import { inject, onMounted } from 'vue'
+
 import { useConfigStore } from '@/stores/config'
 
-const image = useImageStore()
+import { keyImageUrl } from '@/util/keys.js'
+
 const config = useConfigStore()
+
+const imageUrl = inject(keyImageUrl)!
+
 
 // setInterval(() => {
 //   // console.log(Math.random() * 100);
@@ -14,7 +18,7 @@ const config = useConfigStore()
 
 <template>
   <div class="z-illustration" :class="{ 'z-illustration-moible': config.isMoible }">
-    <el-image :src="image.current" fit="cover">
+    <el-image :src="imageUrl" fit="cover">
       <template #placeholder>
         <span class="el-image-slot">老大哥在看着你</span>
       </template>

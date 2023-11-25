@@ -1,93 +1,72 @@
 <script setup lang="ts">
 import ZCorner from '@/components/ZCorner.vue'
 
-import { ref, provide } from 'vue'
+import { ref, provide, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { useMusicStore, useImageStore } from '@/stores/db'
-import { useAudioMetaStore } from '@/stores/audio'
+import { useResourceStore } from '@/stores/db'
 import { useConfigStore } from '@/stores/config'
+import { usePlayerStore } from '@/stores/player'
 
-import { audioKey, audioOperateKey } from './util/keys.js'
+import { useMediaControls, useGetCurrentMusicIndex } from '@/use/audio'
+import { useGetMusicUrl, useGetImageUrl } from '@/use/resourceUrl'
+
+import { 
+  keyMusicUrl, keyPlaying, keyCurrentTime, keyDuration, keyPlayStrategy,
+  keyImageUrl
+ } from '@/util/keys.js'
 import { getResource } from '@/api/githubApi'
 
-const audioRef = ref<HTMLAudioElement>()
-provide(audioKey, audioRef)
+import {
+  PlayStrategyEnum,
+  str2PlayStrategyEnum
+} from '@/enums/playStrategyEnum'
 
-const music = useMusicStore()
-const image = useImageStore()
+// =========================================
+
+const resourse = useResourceStore()
+const player = usePlayerStore()
+
+const audioRef = ref<HTMLAudioElement>()
+const musicUrl = ref<string>('')
+const imageUrl = ref<string>('')
+
+onBeforeMount(() => {
+  getResource()
+    .then((resp) => {
+      resourse.musicList = resp.musicList
+      resourse.imageList = resp.imageList
+    })
+    .then(() => {
+      player.musicIndex = useGetCurrentMusicIndex(resourse.musicList.length)
+      musicUrl.value = useGetMusicUrl(resourse.musicList[player.musicIndex])
+
+      player.imageIndex = Math.floor(Math.random() * resourse.imageList.length)
+      imageUrl.value = useGetImageUrl(resourse.imageList[player.imageIndex])
+    })
+
+  const tmpPlayStrategy = localStorage.getItem(keyPlayStrategy)
+  if (tmpPlayStrategy) {
+    player.playStrategy = str2PlayStrategyEnum(tmpPlayStrategy)
+  } else {
+    localStorage.setItem(keyPlayStrategy, PlayStrategyEnum.DEFAULT)
+  }
+})
+
 const config = useConfigStore()
-const audioMeta = useAudioMetaStore()
 // 马上更新一次设备
 config.updateDevice()
 
-getResource().then((resp) => {
-  music.init(resp.musicList)
-  image.init(resp.imageList)
-})
+const { playing, currentTime, duration } = useMediaControls(audioRef, musicUrl)
+keyMusicUrl
+// 依赖注入 =================================
+provide(keyMusicUrl, musicUrl)
+provide(keyPlaying, playing)
+provide(keyCurrentTime, currentTime)
+provide(keyDuration, duration)
 
-// audio 事件 =====================
-// 当音频的元数据加载完成时触发
-function loadedmetadataEvent() {
-  audioMeta.currentTime = audioRef.value!.currentTime
-  audioMeta.duration = audioRef.value!.duration
-}
-// 当音频的播放位置发生变化时触发
-function timeupdateEvent() {
-  // 更新当前播放时间
-  audioMeta.currentTime = audioRef.value!.currentTime
-}
-// 一首歌播放结束时触发
-function endedEvent() {
-  handleNext()
-}
-// audio 事件 =====================
-
-// audio 操作 =====================
-// 播放
-function handlePlay() {
-  if (audioRef.value!.paused) {
-    audioRef.value!.play()
-  } else {
-    audioRef.value!.pause()
-  }
-  audioMeta.paused = !audioMeta.paused
-}
-// 上一首
-function handlePrevious() {
-  switchMusic(() => music.previous())
-}
-// 下一首
-function handleNext() {
-  switchMusic(() => music.next())
-}
-// 切歌
-function handleSwitch(musicIndex: number) {
-  switchMusic(() => {
-    music.change(musicIndex)
-  })
-}
-
-function switchMusic(callback: () => void) {
-  audioRef.value!.pause()
-  callback()
-  // 监听音频可以开始播放的事件
-  audioRef.value!.addEventListener('canplay', function () {
-    // 开始播放音频
-    audioRef.value!.play()
-    audioMeta.paused = false
-  })
-  // 重新加载音频
-  audioRef.value!.load()
-}
-
-provide(audioOperateKey, {
-  handlePlay: handlePlay,
-  handlePrevious: handlePrevious,
-  handleNext: handleNext,
-  handleSwitch: handleSwitch
-})
-// audio 操作 =====================
+provide(keyImageUrl, imageUrl)
+// 依赖注入 =================================
 
 // 路由 ===========================
 const router = useRouter()
@@ -108,13 +87,7 @@ window.addEventListener('resize', () => {
 
 <template>
   <!-- controls 显示面板 -->
-  <audio
-    ref="audioRef"
-    :src="music.current"
-    @loadedmetadata="loadedmetadataEvent"
-    @timeupdate="timeupdateEvent"
-    @ended="endedEvent"
-  ></audio>
+  <audio ref="audioRef"></audio>
 
   <header v-show="!config.isMoible">
     <h1 @click="pushIndex">纳西妲图书馆</h1>
@@ -128,7 +101,6 @@ window.addEventListener('resize', () => {
   </main>
 
   <footer v-show="!config.isMoible"></footer>
-
   <ZCorner v-show="!config.isMoible" class="z-corner"></ZCorner>
 </template>
 
@@ -178,3 +150,4 @@ span {
   font-weight: 500;
 }
 </style>
+@/use/audio

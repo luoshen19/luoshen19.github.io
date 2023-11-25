@@ -5,38 +5,50 @@ import SvgIcon from './SvgIcon.vue'
 
 import { inject, ref } from 'vue'
 
-import { useMusicStore } from '@/stores/db'
-import { useAudioMetaStore } from '@/stores/audio'
-import { usePlayConfigStore } from '@/stores/config'
+import { useResourceStore } from '@/stores/db'
+import { usePlayerStore } from '@/stores/player'
 
-import { audioOperateKey, keyLikeMisicList } from '@/util/keys.js'
+import { useGetNextMusicIndex } from '@/use/audio'
+import { useGetMusicUrl } from '@/use/resourceUrl'
+
+import {
+  keyMusicUrl,
+  keyPlaying,
+  keyLikeMisicList
+} from '@/util/keys.js'
 import { DirectionEnum } from '@/enums/directionEnum'
 import { PlayStrategyEnum } from '@/enums/playStrategyEnum'
 
+const musicUrl = inject(keyMusicUrl)!
+const playing = inject(keyPlaying)
 
-const audioOperate = inject(audioOperateKey)!
+const resource = useResourceStore()
+const player = usePlayerStore()
 
-const music = useMusicStore()
-const playConfig = usePlayConfigStore()
-const audioMeta = useAudioMetaStore()
-// 初始化 ==========================================
-playConfig.init()
-// 初始化 ==========================================
 const likeMisicList = ref<number[]>(JSON.parse(localStorage.getItem(keyLikeMisicList) ?? '[]'))
 
 function likeEvent() {
   // 存在取消
-  if (likeMisicList.value.includes(music.index)) {
-    likeMisicList.value = likeMisicList.value.filter((it) => it !== music.index)
+  if (likeMisicList.value.includes(player.musicIndex)) {
+    likeMisicList.value = likeMisicList.value.filter((it) => it !== player.musicIndex)
   } else {
-    likeMisicList.value.push(music.index)
+    likeMisicList.value.push(player.musicIndex)
   }
   localStorage.setItem(keyLikeMisicList, JSON.stringify(likeMisicList.value))
+}
+
+function handleNextEvent() {
+  const tmpIndex = useGetNextMusicIndex(
+    player.musicIndex,
+    resource.musicList.length,
+    player.playStrategy
+  )
+  musicUrl.value = useGetMusicUrl(resource.musicList[tmpIndex])
 }
 </script>
 
 <template>
-  <div class="z-controller">
+  <div class="m-controller">
     <div class="menu">
       <button class="menu-btn">
         <SvgIcon name="play-list" color="var(--color-heading)" />
@@ -46,21 +58,33 @@ function likeEvent() {
         <SvgIcon
           name="like"
           color="var(--color-heading)"
-          v-show="!likeMisicList.includes(music.index)"
+          v-show="!likeMisicList.includes(player.musicIndex)"
         />
         <!-- 爱心的颜色是初音发带的颜色 -->
         <SvgIcon
           name="like-fill"
           color="#F52154"
           hover-color="#F52154"
-          v-show="likeMisicList.includes(music.index)"
+          v-show="likeMisicList.includes(player.musicIndex)"
         />
       </button>
 
-      <button class="menu-btn" @click="playConfig.updatePlayStrategy">
-        <SvgIcon name="repeat" color="var(--color-heading)" v-show="playConfig.playStrategy == PlayStrategyEnum.REPEAT" />
-        <SvgIcon name="repeat-one" color="var(--color-heading)" v-show="playConfig.playStrategy == PlayStrategyEnum.REPEAT_ONE" />
-        <SvgIcon name="shuffle" color="var(--color-heading)" v-show="playConfig.playStrategy == PlayStrategyEnum.SHUFFLE" />
+      <button class="menu-btn" @click="player.updatePlayStrategy">
+        <SvgIcon
+          name="repeat"
+          color="var(--color-heading)"
+          v-show="player.playStrategy == PlayStrategyEnum.REPEAT"
+        />
+        <SvgIcon
+          name="repeat-one"
+          color="var(--color-heading)"
+          v-show="player.playStrategy == PlayStrategyEnum.REPEAT_ONE"
+        />
+        <SvgIcon
+          name="shuffle"
+          color="var(--color-heading)"
+          v-show="player.playStrategy == PlayStrategyEnum.SHUFFLE"
+        />
       </button>
     </div>
 
@@ -68,16 +92,16 @@ function likeEvent() {
 
     <!-- 播放控制 -->
     <div class="play-controller">
-      <button class="controller-btn controller-btn-previous" @click="audioOperate.handlePrevious">
+      <button class="controller-btn controller-btn-previous" @click="console.log('provious')">
         <SvgIcon name="next_v2" color="var(--color-heading)" />
       </button>
 
-      <button class="controller-btn controller-btn-play" @click="audioOperate.handlePlay">
-        <SvgIcon name="play_v2" color="var(--color-heading)" v-show="audioMeta.paused" />
-        <SvgIcon name="pause_v2" color="var(--color-heading)" v-show="!audioMeta.paused" />
+      <button class="controller-btn controller-btn-play" @click="playing = !playing">
+        <SvgIcon name="play_v2" color="var(--color-heading)" v-show="!playing" />
+        <SvgIcon name="pause_v2" color="var(--color-heading)" v-show="playing" />
       </button>
 
-      <button class="controller-btn" @click="audioOperate.handleNext">
+      <button class="controller-btn" @click="handleNextEvent">
         <SvgIcon name="next_v2" color="var(--color-heading)" />
       </button>
     </div>
@@ -85,7 +109,7 @@ function likeEvent() {
 </template>
 
 <style scoped>
-.z-controller {
+.m-controller {
   width: 100%;
 }
 

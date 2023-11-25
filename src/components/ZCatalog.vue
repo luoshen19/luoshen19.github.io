@@ -1,16 +1,31 @@
 <script setup lang="ts">
 import { inject } from 'vue'
-import { audioOperateKey } from '@/util/keys.js'
-import { useMusicStore } from '@/stores/db'
 
-const music = useMusicStore()
-const audioOperate = inject(audioOperateKey)!
+import { useResourceStore } from "@/stores/db";
+import { usePlayerStore } from "@/stores/player";
 
-// const d = "up"
-// const oldScrollTop = 0
+import { useGetMusicUrl } from "@/use/resourceUrl";
+
+import { keyMusicUrl } from '@/util/keys.js'
+
+
+const musicUrl = inject(keyMusicUrl)!
+
+const resource = useResourceStore()
+const player = usePlayerStore()
+
+
+
+const d = "up"
+const oldScrollTop = 0
 
 const scroll = ({ scrollTop }: { scrollTop: number }) => {
   // console.log(scrollTop + "");
+}
+
+function handleSwitchEvent(index: number) {
+  player.musicIndex = index
+  musicUrl.value = useGetMusicUrl(resource.musicList[index])
 }
 </script>
 
@@ -18,11 +33,11 @@ const scroll = ({ scrollTop }: { scrollTop: number }) => {
   <div class="z-catalog">
     <el-scrollbar @scroll="scroll">
       <p
-        v-for="(item, index) in music.list"
+        v-for="(item, index) in resource.musicList"
         :key="index"
         class="scrollbar-item"
-        :class="{ current: index === music.index }"
-        @click="audioOperate.handleSwitch(index)"
+        :class="{ current: index === player.musicIndex }"
+        @click="handleSwitchEvent(index)"
       >
         {{ '#  ' + item.substring(0, item.lastIndexOf('.')).replace(/_/g, ' ') }}
       </p>

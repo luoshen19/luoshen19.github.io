@@ -1,8 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
+
 import { useAudioMetaStore } from '@/stores/audio'
+
+import { keyCurrentTime, keyDuration } from '@/util/keys.js'
 import { CommonUtils } from '@/util/commonUtils'
+
 import { DirectionEnum } from '@/enums/directionEnum'
+
+const currentTime = inject(keyCurrentTime)
+const duration = inject(keyDuration)
 
 const audioMeta = useAudioMetaStore()
 const sliderRef = ref<HTMLDivElement>()
@@ -34,8 +41,8 @@ function getProgress(event: MouseEvent) {
       :style="`margin-bottom: ${distance}; font-size: ${size};`"
       v-show="position === DirectionEnum.UP"
     >
-      <div>{{ CommonUtils.toFormatTime(audioMeta.currentTime) }}</div>
-      <div>{{ CommonUtils.toFormatTime(audioMeta.duration) }}</div>
+      <div>{{ CommonUtils.toFormatTime(currentTime) }}</div>
+      <div>{{ CommonUtils.toFormatTime(duration) }}</div>
     </div>
 
     <!-- 时间进度条 -->
@@ -44,11 +51,11 @@ function getProgress(event: MouseEvent) {
         <div class="slider-rail"></div>
         <div
           class="slider-track"
-          :style="{ width: CommonUtils.toPercentage(audioMeta.currentTime, audioMeta.duration) }"
+          :style="{ width: CommonUtils.toPercentage(currentTime, duration) }"
         ></div>
         <div
           class="slider-handle"
-          :style="{ left: CommonUtils.toPercentage(audioMeta.currentTime, audioMeta.duration) }"
+          :style="{ left: CommonUtils.toPercentage(currentTime, duration) }"
         ></div>
       </div>
     </div>
@@ -59,8 +66,8 @@ function getProgress(event: MouseEvent) {
       :style="`margin-top: ${distance}; font-size: ${size};`"
       v-show="position === DirectionEnum.DOWN"
     >
-      <div class="time-content">{{ CommonUtils.toFormatTime(audioMeta.currentTime) }}</div>
-      <div class="time-content">{{ CommonUtils.toFormatTime(audioMeta.duration) }}</div>
+      <div class="time-content">{{ CommonUtils.toFormatTime(currentTime) }}</div>
+      <div class="time-content">{{ CommonUtils.toFormatTime(duration) }}</div>
     </div>
   </div>
 </template>
