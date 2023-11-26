@@ -24,7 +24,7 @@ const player = usePlayerStore()
 watch(ended, (isEnded) => {
   if (!isEnded) return
   if (player.playStrategy == PlayStrategyEnum.REPEAT_ONE) {
-    playing.value = !playing.value
+    // playing.value = !playing.value
   } else {
     handleNextEvent()
   }
@@ -52,20 +52,41 @@ function handleNextEvent() {
 <template>
   <!-- 播放控制 -->
   <div class="z-controller" :class="{ 'z-controller-mobile': config.isMobile }">
-    <button class="controller-btn controller-btn-previous" @click="handlePreviousEvent">
+    <button class="btn controller-btn-previous" @click="handlePreviousEvent">
       <SvgIcon name="next_v2" color="var(--color-heading)" />
     </button>
 
-    <button class="controller-btn controller-btn-play" @click="playing = !playing">
+    <button
+      class="btn"
+      :class="{ 'controller-btn-play': config.isMobile }"
+      @click="playing = !playing"
+    >
       <SvgIcon name="play_v2" color="var(--color-heading)" v-show="!playing" />
       <SvgIcon name="pause_v2" color="var(--color-heading)" v-show="playing" />
     </button>
 
-    <button class="controller-btn" @click="handleNextEvent">
+    <button class="btn" @click="handleNextEvent">
       <SvgIcon name="next_v2" color="var(--color-heading)" />
     </button>
 
-    <span v-show="!config.isMobile"></span>
+    <button class="btn" @click="player.updatePlayStrategy" v-show="!config.isMobile">
+      <SvgIcon
+        name="repeat"
+        color="var(--color-heading)"
+        v-show="player.playStrategy == PlayStrategyEnum.REPEAT"
+      />
+      <SvgIcon
+        name="repeat-one"
+        color="var(--color-heading)"
+        v-show="player.playStrategy == PlayStrategyEnum.REPEAT_ONE"
+      />
+      <SvgIcon
+        name="shuffle"
+        color="var(--color-heading)"
+        v-show="player.playStrategy == PlayStrategyEnum.SHUFFLE"
+      />
+    </button>
+
     <span v-show="!config.isMobile"></span>
     <span v-show="!config.isMobile"></span>
     <span v-show="!config.isMobile"></span>
@@ -84,7 +105,7 @@ function handleNextEvent() {
   justify-content: center;
 }
 
-.controller-btn {
+.btn {
   width: 1.5rem;
   height: 1.5rem;
 }
@@ -93,7 +114,7 @@ function handleNextEvent() {
   transform: rotate(180deg);
 }
 
-.controller-btn-play {
+.controller-btn-play-mobile {
   width: 1.7rem;
   height: 1.7rem;
   margin-left: 3rem;
