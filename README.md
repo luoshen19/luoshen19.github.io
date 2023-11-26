@@ -1,6 +1,15 @@
-### 开发需知 👋
+# 纳西妲图书馆
 
-components 中存放组件，vue的规范是.vue文件要至少两个单词：
+**仅供个人学习交流使用，不作为他人外链**
 
-- ZXxx.vue Z是为了凑这个单词，随着MXxx.vue的组件出来后，也大致有了一层桌面端的意思了。
-- MXxx.vue 移动端组件
+### 欢迎来到纳西妲图书馆
+
+——致力于建设一个纳西妲声线AI翻唱的网页播放器(算是吧)，欢迎各位喜欢纳西妲声线或者喜欢纳西妲的同好来玩！
+
+### 思路来源
+
+- [洛琪希图书馆](https://pan.roxylib.com/)
+- [塞壬唱片](https://monster-siren.hypergryph.com/)
+- mikumiku ooeeoo MV
+
+  ![mikumikuooeeoo](https://github.com/luoshen19/luoshen19.github.io/raw/docs/image/mikumikuooeeoo.png)
