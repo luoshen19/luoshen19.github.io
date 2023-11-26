@@ -43,13 +43,13 @@ function getProgress(event: MouseEvent) {
 let dragging = ref(false)
 let draggingPct = ref(0)
 
-function mousedownEvent(event: MouseEvent) {
+function onMouseDown(event: MouseEvent) {
   dragging.value = true
   const rect = sliderRef.value!.getBoundingClientRect()
   draggingPct.value = (event.clientX - rect.left) / rect.width
 }
 
-function mousemoveEvent(event: MouseEvent) {
+function onMouseMove(event: MouseEvent) {
   if (dragging.value) {
     const rect = sliderRef.value!.getBoundingClientRect()
     let tmp = (event.clientX - rect.left) / rect.width
@@ -59,7 +59,30 @@ function mousemoveEvent(event: MouseEvent) {
   }
 }
 
-function mouseupEvent() {
+function onMouseUp() {
+  if (dragging.value) {
+    currentTime!.value = duration!.value * draggingPct.value
+    dragging.value = false
+  }
+}
+
+function onTouchStart(event: TouchEvent) {
+  dragging.value = true
+  const rect = sliderRef.value!.getBoundingClientRect()
+  draggingPct.value = (event.touches[0].clientX - rect.left) / rect.width
+}
+
+function onTouchMove(event: TouchEvent) {
+  if (dragging.value) {
+    const rect = sliderRef.value!.getBoundingClientRect()
+    let tmp = (event.touches[0].clientX - rect.left) / rect.width
+    if (tmp < 0) tmp = 0
+    if (tmp > 1) tmp = 1
+    draggingPct.value = tmp
+  }
+}
+
+function onTouchEnd() {
   if (dragging.value) {
     currentTime!.value = duration!.value * draggingPct.value
     dragging.value = false
@@ -67,12 +90,16 @@ function mouseupEvent() {
 }
 
 onMounted(() => {
-  window.addEventListener('mousemove', mousemoveEvent)
-  window.addEventListener('mouseup', mouseupEvent)
+  window.addEventListener('mousemove', onMouseMove)
+  window.addEventListener('mouseup', onMouseUp)
+  window.addEventListener('touchmove', onTouchMove)
+  window.addEventListener('touchend', onTouchEnd)
 })
 onBeforeUnmount(() => {
-  window.removeEventListener('mousemove', mousemoveEvent)
-  window.addEventListener('mouseup', mouseupEvent)
+  window.removeEventListener('mousemove', onMouseMove)
+  window.removeEventListener('mouseup', onMouseUp)
+  window.removeEventListener('touchmove', onTouchMove)
+  window.removeEventListener('touchend', onTouchEnd)
 })
 </script>
 
@@ -94,9 +121,12 @@ onBeforeUnmount(() => {
         ref="sliderRef"
         class="slider"
         @click.self="getProgress"
-        @mousedown="mousedownEvent"
-        @mousemove="mousemoveEvent"
-        @mouseup="mouseupEvent"
+        @mousedown="onMouseDown"
+        @mousemove="onMouseMove"
+        @mouseup="onMouseUp"
+        @touchstart="onTouchStart"
+        @touchmove="onTouchMove"
+        @touchend="onTouchEnd"
       >
         <div class="slider-rail"></div>
         <div class="slider-track" :style="{ width: `${sliderX}` }"></div>
