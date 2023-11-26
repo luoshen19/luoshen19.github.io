@@ -16,6 +16,7 @@ import {
   keyPlaying,
   keyCurrentTime,
   keyDuration,
+  keyEnded,
   keyPlayStrategy,
   keyImageUrl
 } from '@/util/keys.js'
@@ -58,13 +59,14 @@ onBeforeMount(() => {
   }
 })
 
-const { playing, currentTime, duration } = useMediaControls(audioRef, musicUrl)
+const { playing, currentTime, duration, ended } = useMediaControls(audioRef, musicUrl)
 
 // 依赖注入 =================================
 provide(keyMusicUrl, musicUrl)
 provide(keyPlaying, playing)
 provide(keyCurrentTime, currentTime)
 provide(keyDuration, duration)
+provide(keyEnded, ended)
 
 provide(keyImageUrl, imageUrl)
 // 依赖注入 =================================

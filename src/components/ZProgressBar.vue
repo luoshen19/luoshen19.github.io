@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject } from 'vue'
+import { ref, computed, inject, onMounted, onBeforeUnmount } from 'vue'
 
 import { useAudioMetaStore } from '@/stores/audio'
 
@@ -13,6 +13,14 @@ const duration = inject(keyDuration)
 
 const audioMeta = useAudioMetaStore()
 const sliderRef = ref<HTMLDivElement>()
+
+const sliderX = computed(() => {
+  if (dragging.value) {
+    return (draggingPct.value * 100).toFixed(2) + '%'
+  } else {
+    return CommonUtils.toPercentage(currentTime?.value, duration?.value)
+  }
+})
 
 export interface TimeDisplayMode {
   position?: DirectionEnum
@@ -31,6 +39,41 @@ function getProgress(event: MouseEvent) {
   const offsetX = event.offsetX
   audioMeta.sliderPos = offsetX / sliderWidth
 }
+
+let dragging = ref(false)
+let draggingPct = ref(0)
+
+function mousedownEvent(event: MouseEvent) {
+  dragging.value = true
+  const rect = sliderRef.value!.getBoundingClientRect()
+  draggingPct.value = (event.clientX - rect.left) / rect.width
+}
+
+function mousemoveEvent(event: MouseEvent) {
+  if (dragging.value) {
+    const rect = sliderRef.value!.getBoundingClientRect()
+    let tmp = (event.clientX - rect.left) / rect.width
+    if (tmp < 0) tmp = 0
+    if (tmp > 1) tmp = 1
+    draggingPct.value = tmp
+  }
+}
+
+function mouseupEvent() {
+  if (dragging.value) {
+    currentTime!.value = duration!.value * draggingPct.value
+    dragging.value = false
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('mousemove', mousemoveEvent)
+  window.addEventListener('mouseup', mouseupEvent)
+})
+onBeforeUnmount(() => {
+  window.removeEventListener('mousemove', mousemoveEvent)
+  window.addEventListener('mouseup', mouseupEvent)
+})
 </script>
 
 <template>
@@ -47,16 +90,17 @@ function getProgress(event: MouseEvent) {
 
     <!-- 时间进度条 -->
     <div class="progressbar">
-      <div ref="sliderRef" class="slider" @click.self="getProgress">
+      <div
+        ref="sliderRef"
+        class="slider"
+        @click.self="getProgress"
+        @mousedown="mousedownEvent"
+        @mousemove="mousemoveEvent"
+        @mouseup="mouseupEvent"
+      >
         <div class="slider-rail"></div>
-        <div
-          class="slider-track"
-          :style="{ width: CommonUtils.toPercentage(currentTime, duration) }"
-        ></div>
-        <div
-          class="slider-handle"
-          :style="{ left: CommonUtils.toPercentage(currentTime, duration) }"
-        ></div>
+        <div class="slider-track" :style="{ width: `${sliderX}` }"></div>
+        <div class="slider-handle" :style="{ left: `${sliderX}` }"></div>
       </div>
     </div>
 

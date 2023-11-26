@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SvgIcon from './SvgIcon.vue'
 
-import { inject } from 'vue'
+import { inject, watch } from 'vue'
 
 import { useConfigStore } from '@/stores/config'
 import { useResourceStore } from '@/stores/db'
@@ -10,14 +10,25 @@ import { usePlayerStore } from '@/stores/player'
 import { useGetNextMusicIndex, useGetPreviousMusicIndex } from '@/use/audio'
 import { useGetMusicUrl } from '@/use/resourceUrl'
 
-import { keyMusicUrl, keyPlaying } from '@/util/keys.js'
+import { keyMusicUrl, keyPlaying, keyEnded } from '@/util/keys.js'
+import { PlayStrategyEnum } from '@/enums/playStrategyEnum'
 
 const musicUrl = inject(keyMusicUrl)!
-const playing = inject(keyPlaying)
+const playing = inject(keyPlaying)!
+const ended = inject(keyEnded)!
 
 const config = useConfigStore()
 const resource = useResourceStore()
 const player = usePlayerStore()
+
+watch(ended, (isEnded) => {
+  if (!isEnded) return
+  if (player.playStrategy == PlayStrategyEnum.REPEAT_ONE) {
+    playing.value = !playing.value
+  } else {
+    handleNextEvent()
+  }
+})
 
 function handlePreviousEvent() {
   player.musicIndex = useGetPreviousMusicIndex(
