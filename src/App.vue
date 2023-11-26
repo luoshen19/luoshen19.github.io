@@ -90,7 +90,7 @@ window.addEventListener('resize', () => {
 
 <template>
   <!-- controls 显示面板 -->
-  <audio ref="audioRef"></audio>
+  <audio ref="audioRef" :loop="player.playStrategy == PlayStrategyEnum.REPEAT_ONE"></audio>
 
   <header v-show="!config.isMobile">
     <h1 @click="pushIndex">纳西妲图书馆</h1>
