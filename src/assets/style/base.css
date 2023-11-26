@@ -107,4 +107,8 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* 禁止双击放大 */
+  touch-action: manipulation;
+  -ms-touch-action: manipulation;
 }

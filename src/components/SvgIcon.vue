@@ -22,12 +22,10 @@ const svgColor = ref(props.color)
 
 function handleMouseOver() {
   svgColor.value = props.hoverColor
-  console.log(svgColor.value)
 }
 
 function handleMouseOut() {
   svgColor.value = props.color
-  console.log(svgColor.value)
 }
 </script>
 

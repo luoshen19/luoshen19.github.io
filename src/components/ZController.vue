@@ -1,55 +1,102 @@
 <script setup lang="ts">
-import { inject } from 'vue'
-import { useAudioMetaStore } from '@/stores/audio'
-import { audioOperateKey } from '@/util/keys.js'
 import SvgIcon from './SvgIcon.vue'
 
-const audioMeta = useAudioMetaStore()
-const audioOperate = inject(audioOperateKey)!
+import { inject, watch } from 'vue'
+
+import { useConfigStore } from '@/stores/config'
+import { useResourceStore } from '@/stores/db'
+import { usePlayerStore } from '@/stores/player'
+
+import { useGetNextMusicIndex, useGetPreviousMusicIndex } from '@/use/audio'
+import { useGetMusicUrl } from '@/use/resourceUrl'
+
+import { keyMusicUrl, keyPlaying, keyEnded } from '@/util/keys.js'
+import { PlayStrategyEnum } from '@/enums/playStrategyEnum'
+
+const musicUrl = inject(keyMusicUrl)!
+const playing = inject(keyPlaying)!
+const ended = inject(keyEnded)!
+
+const config = useConfigStore()
+const resource = useResourceStore()
+const player = usePlayerStore()
+
+watch(ended, (isEnded) => {
+  if (!isEnded) return
+  if (player.playStrategy == PlayStrategyEnum.REPEAT_ONE) {
+    playing.value = !playing.value
+  } else {
+    handleNextEvent()
+  }
+})
+
+function handlePreviousEvent() {
+  player.musicIndex = useGetPreviousMusicIndex(
+    player.musicIndex,
+    resource.musicList.length,
+    player.playStrategy
+  )
+  musicUrl.value = useGetMusicUrl(resource.musicList[player.musicIndex])
+}
+
+function handleNextEvent() {
+  player.musicIndex = useGetNextMusicIndex(
+    player.musicIndex,
+    resource.musicList.length,
+    player.playStrategy
+  )
+  musicUrl.value = useGetMusicUrl(resource.musicList[player.musicIndex])
+}
 </script>
 
 <template>
-  <div class="z-controller">
-    <!-- 播放控制 -->
-    <div class="play-controller">
-      <button class="play-btn" @click="audioOperate.handlePrevious">
-        <SvgIcon name="previous" />
-      </button>
+  <!-- 播放控制 -->
+  <div class="z-controller" :class="{ 'z-controller-mobile': config.isMobile }">
+    <button class="controller-btn controller-btn-previous" @click="handlePreviousEvent">
+      <SvgIcon name="next_v2" color="var(--color-heading)" />
+    </button>
 
-      <button class="play-btn" @click="audioOperate.handlePlay">
-        <SvgIcon name="play" v-show="audioMeta.paused" />
-        <SvgIcon name="pause" v-show="!audioMeta.paused" />
-      </button>
+    <button class="controller-btn controller-btn-play" @click="playing = !playing">
+      <SvgIcon name="play_v2" color="var(--color-heading)" v-show="!playing" />
+      <SvgIcon name="pause_v2" color="var(--color-heading)" v-show="playing" />
+    </button>
 
-      <button class="play-btn" @click="audioOperate.handleNext">
-        <SvgIcon name="next" />
-      </button>
+    <button class="controller-btn" @click="handleNextEvent">
+      <SvgIcon name="next_v2" color="var(--color-heading)" />
+    </button>
 
-      <span></span>
-      <span></span>
-    </div>
+    <span v-show="!config.isMobile"></span>
+    <span v-show="!config.isMobile"></span>
+    <span v-show="!config.isMobile"></span>
+    <span v-show="!config.isMobile"></span>
   </div>
 </template>
 
 <style scoped>
 .z-controller {
   width: 100%;
-}
-
-.play-controller {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-/* btn 默认样式去除 */
-.play-btn {
-  width: 37px;
-  height: 37px;
-  appearance: none;
-  -webkit-appearance: none;
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
+.z-controller-moible {
+  justify-content: center;
+}
+
+.controller-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.controller-btn-previous {
+  transform: rotate(180deg);
+}
+
+.controller-btn-play {
+  width: 1.7rem;
+  height: 1.7rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
 }
 </style>

@@ -5,30 +5,15 @@ import MController from '@/components/MController.vue'
 import ZCatalog from '@/components/ZCatalog.vue'
 import ZProgressBar from '@/components/ZProgressBar.vue'
 
-import { inject, watch } from 'vue'
-import { useAudioMetaStore } from '@/stores/audio'
 import { useConfigStore } from '@/stores/config'
-import { audioKey } from '@/util/keys.js'
 
-const audioRef = inject(audioKey)!
-
-const audioMeta = useAudioMetaStore()
 const config = useConfigStore()
-
-watch(
-  () => audioMeta.sliderPos,
-  (sliderPos) => {
-    console.log(sliderPos)
-    audioRef.value!.currentTime = parseFloat((audioRef.value!.duration * sliderPos).toFixed(2))
-    audioMeta.currentTime = audioRef.value!.duration * sliderPos
-  }
-)
 </script>
 
 <template>
-  <div class="main-1" :class="{ 'main-1-moible': config.isMoible }">
+  <div class="main-1" :class="{ 'main-1-moible': config.isMobile }">
     <ZIllustration />
-    <div class="main-bottom-moible" v-if="config.isMoible">
+    <div class="main-bottom-moible" v-if="config.isMobile">
       <MController />
     </div>
     <div class="main-bottom" v-else>
@@ -36,14 +21,14 @@ watch(
     </div>
   </div>
 
-  <div class="main-2" v-show="!config.isMoible"></div>
+  <div class="main-2" v-show="!config.isMobile"></div>
 
-  <div class="main-3" v-show="!config.isMoible">
+  <div class="main-3" v-show="!config.isMobile">
     <ZCatalog />
     <ZController class="main-bottom" />
   </div>
 
-  <div class="main-4" v-show="!config.isMoible"></div>
+  <div class="main-4" v-show="!config.isMobile"></div>
 </template>
 
 <style scoped>
