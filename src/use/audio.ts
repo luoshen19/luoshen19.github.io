@@ -68,16 +68,29 @@ export function useGetCurrentMusicIndex(len: number): number {
   }
 }
 
+export function useGetPreviousMusicIndex(
+  currentIndex: number,
+  len: number,
+  playStrategy: PlayStrategyEnum
+) {
+  if (playStrategy == PlayStrategyEnum.REPEAT || playStrategy == PlayStrategyEnum.REPEAT_ONE) {
+    return (currentIndex + len - 1) % len
+  } else {
+    let next = Math.floor(Math.random() * len)
+    while (currentIndex == next) {
+      next = Math.floor(Math.random() * len)
+    }
+    return next
+  }
+}
+
 export function useGetNextMusicIndex(
   currentIndex: number,
   len: number,
-  playStrategy: PlayStrategyEnum,
-  history: number[]
+  playStrategy: PlayStrategyEnum
 ) {
-  if (playStrategy == PlayStrategyEnum.REPEAT) {
+  if (playStrategy == PlayStrategyEnum.REPEAT || playStrategy == PlayStrategyEnum.REPEAT_ONE) {
     return (currentIndex + len + 1) % len
-  } else if (playStrategy == PlayStrategyEnum.REPEAT_ONE) {
-    return currentIndex
   } else {
     let next = Math.floor(Math.random() * len)
     while (currentIndex == next) {

@@ -7,7 +7,7 @@ import { useConfigStore } from '@/stores/config'
 import { useResourceStore } from '@/stores/db'
 import { usePlayerStore } from '@/stores/player'
 
-import { useGetNextMusicIndex } from '@/use/audio'
+import { useGetNextMusicIndex, useGetPreviousMusicIndex } from '@/use/audio'
 import { useGetMusicUrl } from '@/use/resourceUrl'
 
 import { keyMusicUrl, keyPlaying } from '@/util/keys.js'
@@ -20,20 +20,21 @@ const resource = useResourceStore()
 const player = usePlayerStore()
 
 function handlePreviousEvent() {
-
+  player.musicIndex = useGetPreviousMusicIndex(
+    player.musicIndex,
+    resource.musicList.length,
+    player.playStrategy
+  )
+  musicUrl.value = useGetMusicUrl(resource.musicList[player.musicIndex])
 }
 
 function handleNextEvent() {
   player.musicIndex = useGetNextMusicIndex(
     player.musicIndex,
     resource.musicList.length,
-    player.playStrategy,
-    player.musicIndexHistory
+    player.playStrategy
   )
   musicUrl.value = useGetMusicUrl(resource.musicList[player.musicIndex])
-
-  player.musicIndexHistory = player.musicIndexHistory.filter((it) => it !== player.musicIndex)
-  player.musicIndexHistory.push(player.musicIndex)
 }
 </script>
 

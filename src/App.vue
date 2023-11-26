@@ -45,7 +45,6 @@ onBeforeMount(() => {
     .then(() => {
       player.musicIndex = useGetCurrentMusicIndex(resourse.musicList.length)
       musicUrl.value = useGetMusicUrl(resourse.musicList[player.musicIndex])
-      player.musicIndexHistory.push(player.musicIndex)
 
       player.imageIndex = Math.floor(Math.random() * resourse.imageList.length)
       imageUrl.value = useGetImageUrl(resourse.imageList[player.imageIndex])
