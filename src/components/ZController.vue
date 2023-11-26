@@ -56,7 +56,11 @@ function handleNextEvent() {
       <SvgIcon name="next_v2" color="var(--color-heading)" />
     </button>
 
-    <button class="btn" :class="{ 'controller-btn-play': config.isMobile }" @click="playing = !playing">
+    <button
+      class="btn"
+      :class="{ 'controller-btn-play': config.isMobile }"
+      @click="playing = !playing"
+    >
       <SvgIcon name="play_v2" color="var(--color-heading)" v-show="!playing" />
       <SvgIcon name="pause_v2" color="var(--color-heading)" v-show="playing" />
     </button>
@@ -65,10 +69,7 @@ function handleNextEvent() {
       <SvgIcon name="next_v2" color="var(--color-heading)" />
     </button>
 
-    <button class="btn" 
-      @click="player.updatePlayStrategy"
-      v-show="!config.isMobile"
-      >
+    <button class="btn" @click="player.updatePlayStrategy" v-show="!config.isMobile">
       <SvgIcon
         name="repeat"
         color="var(--color-heading)"
