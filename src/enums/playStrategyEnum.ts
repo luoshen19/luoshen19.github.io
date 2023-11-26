@@ -16,6 +16,8 @@ export function str2PlayStrategyEnum(str: string): PlayStrategyEnum {
 
 export function getNextPlayStrategyEnum(currentValue: PlayStrategyEnum): PlayStrategyEnum {
   const enumValues = Object.values(PlayStrategyEnum)
+  // 移除 默认
+  enumValues.pop()  
   const currentIndex = enumValues.indexOf(currentValue)
   return enumValues[(currentIndex + 1) % enumValues.length]
 }

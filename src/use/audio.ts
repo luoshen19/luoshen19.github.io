@@ -64,7 +64,9 @@ export function useGetCurrentMusicIndex(len: number): number {
   if (tmp) {
     return parseInt(tmp)
   } else {
-    return Math.floor(Math.random() * len)
+    const index = Math.floor(Math.random() * len)
+    localStorage.setItem(keyMusicIndex, index.toString())
+    return index
   }
 }
 
@@ -73,15 +75,17 @@ export function useGetPreviousMusicIndex(
   len: number,
   playStrategy: PlayStrategyEnum
 ) {
+  let index: number
   if (playStrategy == PlayStrategyEnum.REPEAT || playStrategy == PlayStrategyEnum.REPEAT_ONE) {
-    return (currentIndex + len - 1) % len
+    index = (currentIndex + len - 1) % len
   } else {
-    let next = Math.floor(Math.random() * len)
-    while (currentIndex == next) {
-      next = Math.floor(Math.random() * len)
+    index = Math.floor(Math.random() * len)
+    while (currentIndex == index) {
+      index = Math.floor(Math.random() * len)
     }
-    return next
   }
+  localStorage.setItem(keyMusicIndex, index.toString())
+  return index
 }
 
 export function useGetNextMusicIndex(
@@ -89,13 +93,15 @@ export function useGetNextMusicIndex(
   len: number,
   playStrategy: PlayStrategyEnum
 ) {
+  let index: number
   if (playStrategy == PlayStrategyEnum.REPEAT || playStrategy == PlayStrategyEnum.REPEAT_ONE) {
-    return (currentIndex + len + 1) % len
+    index = (currentIndex + len + 1) % len
   } else {
-    let next = Math.floor(Math.random() * len)
-    while (currentIndex == next) {
-      next = Math.floor(Math.random() * len)
+    index = Math.floor(Math.random() * len)
+    while (currentIndex == index) {
+      index = Math.floor(Math.random() * len)
     }
-    return next
   }
+  localStorage.setItem(keyMusicIndex, index.toString())
+  return index
 }

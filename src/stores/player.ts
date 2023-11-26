@@ -11,7 +11,8 @@ export const usePlayerStore = defineStore('player', () => {
 
   function updatePlayStrategy() {
     const tmp = getNextPlayStrategyEnum(playStrategy.value)
-    ;(playStrategy.value = tmp), localStorage.setItem(keyPlayStrategy, tmp)
+    playStrategy.value = tmp
+    localStorage.setItem(keyPlayStrategy, tmp)
   }
 
   return {
