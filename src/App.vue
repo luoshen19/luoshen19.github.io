@@ -21,7 +21,8 @@ import {
   keyEnded,
   keyPlayStrategy,
   keyImageUrl,
-  keyLargeScreen
+  keyLargeScreen,
+  keyAlbum
 } from '@/util/keys.js'
 import { getResource } from '@/api/githubApi'
 
@@ -38,8 +39,9 @@ const imageUrl = ref<string>('')
 onBeforeMount(() => {
   getResource()
     .then((resp) => {
-      resourse.musicList = resp.musicList
-      resourse.imageList = resp.imageList
+      resourse.db = resp
+      resourse.album = resourse.db[keyAlbum]
+      resourse.update(import.meta.env.VITE_ALBUM)
     })
     .then(() => {
       player.musicIndex = useGetCurrentMusicIndex(resourse.musicList.length)

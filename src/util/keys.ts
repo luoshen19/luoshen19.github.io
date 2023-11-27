@@ -15,3 +15,6 @@ export const keyLargeScreen = Symbol() as InjectionKey<Ref<boolean>>
 export const keyPlayStrategy = 'playStrategy'
 export const keyLikeMisicList = 'likeMisicList'
 export const keyMusicIndex = 'keyMusicIndex'
+
+// github 上的 db.json 的 key
+export const keyAlbum = 'album'
