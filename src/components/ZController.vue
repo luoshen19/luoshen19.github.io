@@ -3,21 +3,20 @@ import SvgIcon from './SvgIcon.vue'
 
 import { inject, watch } from 'vue'
 
-import { useConfigStore } from '@/stores/config'
 import { useResourceStore } from '@/stores/db'
 import { usePlayerStore } from '@/stores/player'
 
 import { useGetNextMusicIndex, useGetPreviousMusicIndex } from '@/use/audio'
 import { useGetMusicUrl } from '@/use/resourceUrl'
 
-import { keyMusicUrl, keyPlaying, keyEnded } from '@/util/keys.js'
+import { keyMusicUrl, keyPlaying, keyEnded, keyLargeScreen } from '@/util/keys.js'
 import { PlayStrategyEnum } from '@/enums/playStrategyEnum'
 
 const musicUrl = inject(keyMusicUrl)!
 const playing = inject(keyPlaying)!
 const ended = inject(keyEnded)!
+const largeScreen = inject(keyLargeScreen)
 
-const config = useConfigStore()
 const resource = useResourceStore()
 const player = usePlayerStore()
 
@@ -51,14 +50,14 @@ function handleNextEvent() {
 
 <template>
   <!-- 播放控制 -->
-  <div class="z-controller" :class="{ 'z-controller-mobile': config.isMobile }">
+  <div class="z-controller" :class="{ 'z-controller-mobile': !largeScreen }">
     <button class="btn controller-btn-previous" @click="handlePreviousEvent">
       <SvgIcon name="next_v2" color="var(--color-heading)" />
     </button>
 
     <button
       class="btn"
-      :class="{ 'controller-btn-play': config.isMobile }"
+      :class="{ 'controller-btn-play': !largeScreen }"
       @click="playing = !playing"
     >
       <SvgIcon name="play_v2" color="var(--color-heading)" v-show="!playing" />
@@ -69,7 +68,7 @@ function handleNextEvent() {
       <SvgIcon name="next_v2" color="var(--color-heading)" />
     </button>
 
-    <button class="btn" @click="player.updatePlayStrategy" v-show="!config.isMobile">
+    <button class="btn" @click="player.updatePlayStrategy" v-show="largeScreen">
       <SvgIcon
         name="repeat"
         color="var(--color-heading)"
@@ -87,9 +86,9 @@ function handleNextEvent() {
       />
     </button>
 
-    <span v-show="!config.isMobile"></span>
-    <span v-show="!config.isMobile"></span>
-    <span v-show="!config.isMobile"></span>
+    <span v-show="largeScreen"></span>
+    <span v-show="largeScreen"></span>
+    <span v-show="largeScreen"></span>
   </div>
 </template>
 

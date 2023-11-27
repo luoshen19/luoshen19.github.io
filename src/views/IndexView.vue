@@ -5,30 +5,33 @@ import MController from '@/components/MController.vue'
 import ZCatalog from '@/components/ZCatalog.vue'
 import ZProgressBar from '@/components/ZProgressBar.vue'
 
-import { useConfigStore } from '@/stores/config'
+import { keyLargeScreen } from "@/util/keys";
 
-const config = useConfigStore()
+import { inject } from "vue";
+
+const largeScreen = inject(keyLargeScreen)
 </script>
 
 <template>
-  <div class="main-1" :class="{ 'main-1-moible': config.isMobile }">
+  <div class="main-1" :class="{ 'main-1-moible': !largeScreen }">
     <ZIllustration />
-    <div class="main-bottom-moible" v-if="config.isMobile">
-      <MController />
-    </div>
-    <div class="main-bottom" v-else>
+    <div class="main-bottom" v-if="largeScreen">
       <ZProgressBar />
     </div>
+    <div class="main-bottom-moible" v-else>
+      <MController />
+    </div>
+
   </div>
 
-  <div class="main-2" v-show="!config.isMobile"></div>
+  <div class="main-2" v-show="largeScreen"></div>
 
-  <div class="main-3" v-show="!config.isMobile">
+  <div class="main-3" v-show="largeScreen">
     <ZCatalog />
     <ZController class="main-bottom" />
   </div>
 
-  <div class="main-4" v-show="!config.isMobile"></div>
+  <div class="main-4" v-show="largeScreen"></div>
 </template>
 
 <style scoped>
