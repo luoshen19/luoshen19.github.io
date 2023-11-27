@@ -19,5 +19,12 @@
   ],
   "background": [
     "bg_nahida01.png"
+  ],
+
+  "mikuMusicList": [
+    "miku_miku_ooeeoo.mp3"
+  ],
+  "mikuImageList": [
+    "miku.gif"
   ]
 }
