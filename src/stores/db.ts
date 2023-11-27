@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 export const useResourceStore = defineStore('resource', () => {
   // 所有数据
   const db = ref<any>()
+  // 专辑(歌单)
   const album = ref<NAlbum[]>()
   // 音乐文件列表 eg. 残酷天使的行动纲领.mp3
   const musicList = ref<string[]>([])

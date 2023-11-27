@@ -51,7 +51,7 @@ function handleNextEvent() {
 <template>
   <!-- 播放控制 -->
   <div class="z-controller" :class="{ 'z-controller-mobile': !largeScreen }">
-    <button class="btn controller-btn-previous" @click="handlePreviousEvent">
+    <button class="btn rotate180" @click="handlePreviousEvent">
       <SvgIcon name="next_v2" color="var(--color-heading)" />
     </button>
 
@@ -107,10 +107,6 @@ function handleNextEvent() {
 .btn {
   width: 1.5rem;
   height: 1.5rem;
-}
-
-.controller-btn-previous {
-  transform: rotate(180deg);
 }
 
 .controller-btn-play-mobile {
