@@ -1,29 +1,5 @@
 {
-  "musicList": [
-    "残酷天使.mp3",
-    "白金disco.mp3",
-    "千本樱.mp3",
-    "shelter.mp3",
-    "miku_miku_ooeeoo.mp3"
-  ],
-  "imageList": [
-    "nahida01.jpg",
-    "nahida02.jpg",
-    "nahida03.jpg",
-    "nahida04.jpg"
-  ],
-  "background": [
-    "bg_nahida01.png"
-  ],
-
-  "mikuMusicList": [
-    "miku_miku_ooeeoo.mp3"
-  ],
-  "mikuImageList": [
-    "miku.gif"
-  ],
-
-  "meta": [
+  "album": [
     {
       "id": "nahida",
       "name": "纳西妲"
