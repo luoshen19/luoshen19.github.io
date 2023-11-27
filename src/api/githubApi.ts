@@ -5,22 +5,12 @@ const githubApi = axios.create({
   timeout: 5000
 })
 
-export async function getResource(): Promise<DbEntity> {
+export async function getResource(): Promise<any> {
   try {
     const resp = await githubApi.get('/db.json')
-    return new DbEntity(resp.data['musicList'], resp.data['imageList'])
+    return resp.data
   } catch (error) {
     console.log(error)
     throw error
-  }
-}
-
-export class DbEntity {
-  public musicList: string[]
-  public imageList: string[]
-
-  constructor(musicList: string[], imageList: string[]) {
-    this.musicList = musicList
-    this.imageList = imageList
   }
 }

@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { inject, onMounted } from 'vue'
 
-import { useConfigStore } from '@/stores/config'
-
-import { keyImageUrl } from '@/util/keys.js'
-
-const config = useConfigStore()
+import { keyImageUrl, keyLargeScreen } from '@/util/keys.js'
 
 const imageUrl = inject(keyImageUrl)!
+const largeScreen = inject(keyLargeScreen)
 
 // setInterval(() => {
 //   // console.log(Math.random() * 100);
@@ -16,7 +13,7 @@ const imageUrl = inject(keyImageUrl)!
 </script>
 
 <template>
-  <div class="z-illustration" :class="{ 'z-illustration-moible': config.isMobile }">
+  <div class="z-illustration" :class="{ 'z-illustration-moible': !largeScreen }">
     <el-image :src="imageUrl" fit="cover">
       <template #placeholder>
         <span class="el-image-slot">老大哥在看着你</span>

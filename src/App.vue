@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import MIndexView from '@/views/MIndexView.vue'
 import ZCorner from '@/components/ZCorner.vue'
 
 import { ref, provide, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
 
+import { useMediaQuery } from '@vueuse/core'
+
 import { useResourceStore } from '@/stores/db'
-import { useConfigStore } from '@/stores/config'
 import { usePlayerStore } from '@/stores/player'
 
 import { useMediaControls, useGetCurrentMusicIndex } from '@/use/audio'
@@ -18,15 +20,15 @@ import {
   keyDuration,
   keyEnded,
   keyPlayStrategy,
-  keyImageUrl
+  keyImageUrl,
+  keyLargeScreen,
+  keyAlbum
 } from '@/util/keys.js'
 import { getResource } from '@/api/githubApi'
 
 import { PlayStrategyEnum, str2PlayStrategyEnum } from '@/enums/playStrategyEnum'
 
 // =========================================
-
-const config = useConfigStore()
 const resourse = useResourceStore()
 const player = usePlayerStore()
 
@@ -35,13 +37,11 @@ const musicUrl = ref<string>('')
 const imageUrl = ref<string>('')
 
 onBeforeMount(() => {
-  // 初始化配置
-  config.init()
-
   getResource()
     .then((resp) => {
-      resourse.musicList = resp.musicList
-      resourse.imageList = resp.imageList
+      resourse.db = resp
+      resourse.album = resourse.db[keyAlbum]
+      resourse.update(import.meta.env.VITE_ALBUM)
     })
     .then(() => {
       player.musicIndex = useGetCurrentMusicIndex(resourse.musicList.length)
@@ -59,6 +59,7 @@ onBeforeMount(() => {
   }
 })
 
+const largeScreen = useMediaQuery(`(min-width: ${import.meta.env.VITE_MIN_WIDTH})`)
 const { playing, currentTime, duration, ended } = useMediaControls(audioRef, musicUrl)
 
 // 依赖注入 =================================
@@ -67,8 +68,8 @@ provide(keyPlaying, playing)
 provide(keyCurrentTime, currentTime)
 provide(keyDuration, duration)
 provide(keyEnded, ended)
-
 provide(keyImageUrl, imageUrl)
+provide(keyLargeScreen, largeScreen)
 // 依赖注入 =================================
 
 // 路由 ===========================
@@ -82,29 +83,28 @@ function pushAbout() {
   router.push('/about')
 }
 // 路由 ===========================
-
-window.addEventListener('resize', () => {
-  config.updateDevice()
-})
 </script>
 
 <template>
   <!-- controls 显示面板 -->
   <audio ref="audioRef" :loop="player.playStrategy == PlayStrategyEnum.REPEAT_ONE"></audio>
 
-  <header v-show="!config.isMobile">
+  <header v-show="largeScreen">
     <h1 @click="pushIndex">纳西妲图书馆</h1>
     <el-space :size="10">
       <span @click="pushAbout">关于</span>
     </el-space>
   </header>
 
-  <main :class="{ 'main-moible': config.isMobile }">
+  <main class="main-mobile" v-show="!largeScreen">
+    <MIndexView v-show="!largeScreen" />
+  </main>
+  <main v-show="largeScreen">
     <RouterView></RouterView>
   </main>
 
-  <footer v-show="!config.isMobile"></footer>
-  <ZCorner v-show="!config.isMobile" class="z-corner"></ZCorner>
+  <footer v-show="largeScreen"></footer>
+  <ZCorner v-show="largeScreen" class="z-corner"></ZCorner>
 </template>
 
 <style scoped>
@@ -126,8 +126,7 @@ main {
   height: 75%;
   display: flex;
 }
-
-.main-moible {
+.main-mobile {
   width: 100vw;
   height: 100vh;
 }
