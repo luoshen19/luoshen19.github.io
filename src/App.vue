@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import MIndexView from '@/views/MIndexView.vue'
 import ZCorner from '@/components/ZCorner.vue'
 
 import { ref, provide, onBeforeMount } from 'vue'
@@ -93,7 +94,10 @@ function pushAbout() {
     </el-space>
   </header>
 
-  <main :class="{ 'main-moible': !largeScreen }">
+  <main class="main-mobile" v-show="!largeScreen">
+    <MIndexView v-show="!largeScreen" />
+  </main>
+  <main v-show="largeScreen">
     <RouterView></RouterView>
   </main>
 
@@ -120,8 +124,7 @@ main {
   height: 75%;
   display: flex;
 }
-
-.main-moible {
+.main-mobile {
   width: 100vw;
   height: 100vh;
 }

@@ -15,4 +15,3 @@ export const keyLargeScreen = Symbol() as InjectionKey<Ref<boolean>>
 export const keyPlayStrategy = 'playStrategy'
 export const keyLikeMisicList = 'likeMisicList'
 export const keyMusicIndex = 'keyMusicIndex'
-

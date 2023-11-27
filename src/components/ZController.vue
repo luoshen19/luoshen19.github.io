@@ -57,7 +57,7 @@ function handleNextEvent() {
 
     <button
       class="btn"
-      :class="{ 'controller-btn-play': !largeScreen }"
+      :class="{ 'controller-btn-play-mobile': !largeScreen }"
       @click="playing = !playing"
     >
       <SvgIcon name="play_v2" color="var(--color-heading)" v-show="!playing" />
@@ -100,7 +100,7 @@ function handleNextEvent() {
   align-items: center;
 }
 
-.z-controller-moible {
+.z-controller-mobile {
   justify-content: center;
 }
 

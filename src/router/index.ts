@@ -17,7 +17,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  if (to.name !== 'index' && to.name !== 'about') {    
+  if (to.name !== 'index' && to.name !== 'about') {
     return { name: 'index' }
   }
 })
