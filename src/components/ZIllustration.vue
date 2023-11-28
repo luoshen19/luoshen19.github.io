@@ -29,17 +29,11 @@ function likeEvent() {
   <div :class="{ 'z-illustration': largeScreen, 'z-illustration-mobile': !largeScreen }">
     <div class="menu" v-show="!largeScreen">
       <button class="menu-btn rotate180">
-        <SvgIcon 
-        name="arrow-up" 
-        color="var(--color-heading)"
-         />
+        <SvgIcon name="arrow-up" color="var(--color-heading)" />
       </button>
 
       <button class="menu-btn rotate90">
-        <SvgIcon
-          name="dots-three"
-          color="var(--color-heading)"
-        />
+        <SvgIcon name="dots-three" color="var(--color-heading)" />
       </button>
     </div>
 
