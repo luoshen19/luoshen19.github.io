@@ -36,9 +36,7 @@ const imageUrl = inject(keyImageUrl)!
   align-items: center;
   width: 100%;
   height: 100%;
-  border: 1px solid var(--dark-theme-color-w3);
   border-radius: 2px;
-  color: var(--dark-theme-color-w3);
   font-size: 1rem;
 }
 </style>

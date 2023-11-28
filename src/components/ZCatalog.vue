@@ -104,19 +104,6 @@ function handleSwitchEvent(index: number) {
   color: var(--color-heading);
 }
 
-/* 修改 ElementUI 官方样式============================================= */
-/* 
-  Element 隐藏滚动条 
-  参考文章 https://huaweicloud.csdn.net/63a563a3b878a5454594626e.html
-*/
-:deep(.el-scrollbar__bar.is-vertical) {
-  width: 0 !important;
-}
-:deep(.el-scrollbar__bar.is-horizontal) {
-  height: 0 !important;
-}
-/* 修改 ElementUI 官方样式============================================= */
-
 .current {
   color: var(--color-heading);
   background: var(--color-background-soft);

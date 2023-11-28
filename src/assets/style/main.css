@@ -1,5 +1,7 @@
 @import './reset.css';
 @import './base.css';
+@import './common.css';
+@import './el.css';
 
 #app {
   max-width: 1280px;
@@ -8,16 +10,4 @@
   /* padding: 2rem; */
 
   font-weight: normal;
-}
-
-.rotate90 {
-  transform: rotate(90deg);
-}
-
-.rotate180 {
-  transform: rotate(180deg);
-}
-
-.rotate270 {
-  transform: rotate(270deg);
 }

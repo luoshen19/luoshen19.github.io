@@ -13,7 +13,10 @@ export const useResourceStore = defineStore('resource', () => {
   // 背景图片文件列表 eg. bg_nahida01.jpg
   const backgroundList = ref<string[]>([])
 
-  function update(id: string) {
+  function update(id: string | null) {
+    if (!id) {
+      id = import.meta.env.VITE_ALBUM
+    }
     musicList.value = db.value[id].musicList
     imageList.value = db.value[id].imageList
     backgroundList.value = db.value[id].backgroundList
