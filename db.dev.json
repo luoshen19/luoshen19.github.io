@@ -1,0 +1,217 @@
+{
+  "album": [
+    {
+      "id": "nahida",
+      "name": "纳西妲"
+    },
+    {
+      "id": "nahida01",
+      "name": "纳西妲"
+    },
+    {
+      "id": "nahida02",
+      "name": "纳西妲"
+    },
+    {
+      "id": "nahida03",
+      "name": "纳西妲"
+    },
+    {
+      "id": "nahida04",
+      "name": "纳西妲"
+    },
+    {
+      "id": "nahida05",
+      "name": "纳西妲"
+    },
+    {
+      "id": "nahida06",
+      "name": "纳西妲"
+    },
+    {
+      "id": "nahida07",
+      "name": "纳西妲"
+    },
+    {
+      "id": "nahida08",
+      "name": "纳西妲"
+    },
+    {
+      "id": "miku",
+      "name": "初音未来"
+    },
+    {
+      "id": "foo",
+      "name": "foobar"
+    }
+  ],
+
+  "nahida": {
+    "musicList": [
+      "残酷天使.mp3",
+      "白金disco.mp3",
+      "千本樱.mp3",
+      "shelter.mp3",
+      "miku_miku_ooeeoo.mp3"
+    ],
+    "imageList": [
+      "nahida01.jpg",
+      "nahida02.jpg",
+      "nahida03.jpg",
+      "nahida04.jpg"
+    ],
+    "background": [
+      "bg_nahida01.png"
+    ]
+  },
+
+  "nahida01": {
+    "musicList": [
+      "残酷天使.mp3"
+    ],
+    "imageList": [
+      "nahida01.jpg"
+    ],
+    "background": [
+      "bg_nahida01.png"
+    ]
+  },
+
+  "nahida02": {
+    "musicList": [
+      "残酷天使.mp3"
+    ],
+    "imageList": [
+      "nahida01.jpg"
+    ],
+    "background": [
+      "bg_nahida01.png"
+    ]
+  },
+
+  "nahida03": {
+    "musicList": [
+      "残酷天使.mp3"
+    ],
+    "imageList": [
+      "nahida01.jpg"
+    ],
+    "background": [
+      "bg_nahida01.png"
+    ]
+  },
+
+  "nahida04": {
+    "musicList": [
+      "残酷天使.mp3"
+    ],
+    "imageList": [
+      "nahida01.jpg"
+    ],
+    "background": [
+      "bg_nahida01.png"
+    ]
+  },
+
+  "nahida05": {
+    "musicList": [
+      "残酷天使.mp3"
+    ],
+    "imageList": [
+      "nahida01.jpg"
+    ],
+    "background": [
+      "bg_nahida01.png"
+    ]
+  },
+
+  "nahida06": {
+    "musicList": [
+      "残酷天使.mp3",
+      "白金disco.mp3",
+      "千本樱.mp3",
+      "shelter.mp3",
+      "miku_miku_ooeeoo.mp3"
+    ],
+    "imageList": [
+      "nahida01.jpg",
+      "nahida02.jpg",
+      "nahida03.jpg",
+      "nahida04.jpg"
+    ],
+    "background": [
+      "bg_nahida01.png"
+    ]
+  },
+
+  "nahida07": {
+    "musicList": [
+      "残酷天使.mp3"
+    ],
+    "imageList": [
+      "nahida01.jpg"
+    ],
+    "background": [
+      "bg_nahida01.png"
+    ]
+  },
+
+  "nahida08": {
+    "musicList": [
+      "残酷天使.mp3"
+    ],
+    "imageList": [
+      "nahida01.jpg"
+    ],
+    "background": [
+      "bg_nahida01.png"
+    ]
+  },
+
+  "miku": {
+    "musicList": [
+      "miku_miku_ooeeoo.mp3"
+    ],
+    "imageList": [
+      "miku.gif"
+    ]  
+  },
+
+  "foo": {
+    "musicList": [
+      "残酷天使.mp3",
+      "白金disco.mp3",
+      "千本樱.mp3",
+      "shelter.mp3",
+      "miku_miku_ooeeoo.mp3",
+      "残酷天使.mp3",
+      "白金disco.mp3",
+      "千本樱.mp3",
+      "shelter.mp3",
+      "miku_miku_ooeeoo.mp3",
+      "残酷天使.mp3",
+      "白金disco.mp3",
+      "千本樱.mp3",
+      "shelter.mp3",
+      "miku_miku_ooeeoo.mp3",
+      "残酷天使.mp3",
+      "白金disco.mp3",
+      "千本樱.mp3",
+      "shelter.mp3",
+      "miku_miku_ooeeoo.mp3",
+      "残酷天使.mp3",
+      "白金disco.mp3",
+      "千本樱.mp3",
+      "shelter.mp3",
+      "miku_miku_ooeeoo.mp3",
+      "残酷天使.mp3",
+      "白金disco.mp3",
+      "千本樱.mp3",
+      "shelter.mp3",
+      "miku_miku_ooeeoo.mp3"
+    ],
+    "imageList": [
+      "miku.gif"
+    ]  
+  }
+}
