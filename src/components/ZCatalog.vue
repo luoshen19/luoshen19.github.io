@@ -89,6 +89,17 @@ function handleSwitchEvent(index: number) {
   pointer-events: none;
 } */
 
+/* 
+  ElementUI 隐藏滚动条 
+  参考文章 https://huaweicloud.csdn.net/63a563a3b878a5454594626e.html
+*/
+:deep(.el-scrollbar__bar.is-vertical) {
+  width: 0 !important;
+}
+:deep(.el-scrollbar__bar.is-horizontal) {
+  height: 0 !important;
+}
+
 .scrollbar-item {
   font-size: 1.3rem;
   letter-spacing: 1px;

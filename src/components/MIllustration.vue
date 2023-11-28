@@ -144,6 +144,17 @@ function switchAlbum(albumId: string) {
   font-size: 1rem;
 }
 
+/* 
+  ElementUI 隐藏滚动条 
+  参考文章 https://huaweicloud.csdn.net/63a563a3b878a5454594626e.html
+*/
+:deep(.el-scrollbar__bar.is-vertical) {
+  width: 0 !important;
+}
+:deep(.el-scrollbar__bar.is-horizontal) {
+  height: 0 !important;
+}
+
 .scrollbar-item {
   font-size: 1.3rem;
   letter-spacing: 1px;
@@ -153,7 +164,7 @@ function switchAlbum(albumId: string) {
   line-height: normal;
   padding-left: 5px;
   background: var(--color-background-mute);
-  background-color: rgba(255, 255, 255, .5);
+  background-color: rgba(255, 255, 255, 0.5);
   opacity: 1;
 }
 
