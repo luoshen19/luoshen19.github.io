@@ -38,7 +38,9 @@ function switchAlbum(albumId: string) {
   localStorage.setItem(keyAlbumId, albumId)
 
   // TODO 自动更新 目前 手动更新图片
-  imageUrl.value = useGetImageUrl(resource.imageList[useGetNextImageIndex(player.imageIndex, resource.musicList.length)])
+  imageUrl.value = useGetImageUrl(
+    resource.imageList[useGetNextImageIndex(player.imageIndex, resource.musicList.length)]
+  )
 }
 
 function showAlbum() {
