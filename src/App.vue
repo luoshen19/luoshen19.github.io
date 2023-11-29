@@ -41,7 +41,7 @@ onBeforeMount(() => {
   getResource()
     .then((resp) => {
       resourse.db = resp
-      resourse.album = resourse.db[keyDbAlbum]
+      resourse.albumList = resourse.db[keyDbAlbum]
       resourse.update(localStorage.getItem(keyAlbumId))
       player.albumId = localStorage.getItem(keyAlbumId) ?? import.meta.env.VITE_ALBUM
     })

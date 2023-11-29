@@ -8,6 +8,8 @@ import { usePlayerStore } from '@/stores/player'
 import { keyLikeMisicList, keyImageUrl, keyAlbumId } from '@/util/keys.js'
 import { PlayStrategyEnum } from '@/enums/playStrategyEnum'
 
+import { useGetImageUrl, useGetNextImageIndex } from '@/use/imageRes'
+
 const imageUrl = inject(keyImageUrl)!
 
 const player = usePlayerStore()
@@ -15,6 +17,10 @@ const resource = useResourceStore()
 
 const likeMisicList = ref<number[]>(JSON.parse(localStorage.getItem(keyLikeMisicList) ?? '[]'))
 const isShowAlbum = ref(false)
+const albumLeaveTime = ref(0)
+const albumShowStatus = ref<boolean[]>([])
+// 条目出入场时间间隔
+const interval = 50
 
 function likeEvent() {
   // 存在取消
@@ -30,13 +36,32 @@ function switchAlbum(albumId: string) {
   player.albumId = albumId
   resource.update(albumId)
   localStorage.setItem(keyAlbumId, albumId)
+
+  // TODO 自动更新 目前 手动更新图片
+  imageUrl.value = useGetImageUrl(resource.imageList[useGetNextImageIndex(player.imageIndex, resource.musicList.length)])
+}
+
+function showAlbum() {
+  isShowAlbum.value = !isShowAlbum.value
+  albumLeaveTime.value = resource.albumList!.length * interval * 2
+  let delay = 0
+  resource.albumList!.forEach((item, index) => {
+    setTimeout(() => {
+      if (isShowAlbum.value) {
+        albumShowStatus.value[index] = isShowAlbum.value
+      } else {
+        albumShowStatus.value[resource.albumList!.length - index - 1] = isShowAlbum.value
+      }
+    }, delay)
+    delay += interval
+  })
 }
 </script>
 
 <template>
   <div class="z-illustration">
     <div class="menu">
-      <button class="menu-btn rotate180" @click="isShowAlbum = !isShowAlbum">
+      <button class="menu-btn rotate180" @click="showAlbum">
         <SvgIcon name="arrow-up" color="var(--color-heading)" />
       </button>
 
@@ -46,7 +71,12 @@ function switchAlbum(albumId: string) {
     </div>
 
     <div class="illustration">
-      <el-image :src="imageUrl" fit="cover" :class="{ 'el-image-blur': isShowAlbum }">
+      <el-image
+        :src="imageUrl"
+        fit="cover"
+        :class="{ 'el-image-blur': isShowAlbum }"
+        style="transition: all 0.5s ease"
+      >
         <template #placeholder>
           <span class="el-image-slot">let death like autumn leaves</span>
         </template>
@@ -54,18 +84,22 @@ function switchAlbum(albumId: string) {
           <span class="el-image-slot">let death like autumn leaves</span>
         </template>
       </el-image>
-
-      <el-scrollbar v-show="isShowAlbum">
-        <p
-          v-for="(item, index) in resource.album"
-          :key="index"
-          class="scrollbar-item"
-          :class="{ current: index === player.musicIndex }"
-          @click="switchAlbum(item.id)"
-        >
-          {{ '#  ' + item.name }}
-        </p>
-      </el-scrollbar>
+      <transition name="fade" :duration="{ enter: 0, leave: albumLeaveTime }">
+        <el-scrollbar v-show="isShowAlbum">
+          <TransitionGroup name="album">
+            <p
+              v-for="(item, index) in resource.albumList"
+              v-show="albumShowStatus[index]"
+              :key="item.id"
+              class="scrollbar-item"
+              :class="{ current: item.id === player.albumId }"
+              @click="switchAlbum(item.id)"
+            >
+              {{ '#  ' + item.name }}
+            </p>
+          </TransitionGroup>
+        </el-scrollbar>
+      </transition>
     </div>
 
     <div class="menu">
@@ -131,7 +165,7 @@ function switchAlbum(albumId: string) {
 }
 
 .el-image-blur {
-  filter: opacity(80%) blur(2px);
+  filter: blur(2px);
 }
 
 .el-image-slot {
@@ -142,6 +176,10 @@ function switchAlbum(albumId: string) {
   height: 100%;
   border-radius: 2px;
   font-size: 1rem;
+}
+
+.el-scrollbar {
+  transition: all 0.5s ease;
 }
 
 /* 
@@ -163,13 +201,18 @@ function switchAlbum(albumId: string) {
   text-overflow: ellipsis;
   line-height: normal;
   padding-left: 5px;
-  background: var(--color-background-mute);
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: var(--color-border);
   opacity: 1;
 }
 
 .scrollbar-item:hover {
   color: var(--color-heading);
+  background-color: var(--color-border-hover);
+}
+
+.current {
+  color: var(--color-heading);
+  background-color: var(--color-border-hover);
 }
 
 .menu {
@@ -180,5 +223,27 @@ function switchAlbum(albumId: string) {
 .menu-btn {
   width: 1.3rem;
   height: 1.3rem;
+}
+
+.fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+.fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.fade-enter-from,
+.fade-leave-to {
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.album-enter-active,
+.album-leave-active {
+  transition: all 0.5s ease;
+}
+.album-enter-from,
+.album-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>
