@@ -22,7 +22,8 @@ import {
   keyPlayStrategy,
   keyImageUrl,
   keyLargeScreen,
-  keyAlbum
+  keyAlbumId,
+  keyDbAlbum
 } from '@/util/keys.js'
 import { getResource } from '@/api/githubApi'
 
@@ -40,8 +41,9 @@ onBeforeMount(() => {
   getResource()
     .then((resp) => {
       resourse.db = resp
-      resourse.album = resourse.db[keyAlbum]
-      resourse.update(import.meta.env.VITE_ALBUM)
+      resourse.albumList = resourse.db[keyDbAlbum]
+      resourse.update(localStorage.getItem(keyAlbumId))
+      player.albumId = localStorage.getItem(keyAlbumId) ?? import.meta.env.VITE_ALBUM
     })
     .then(() => {
       player.musicIndex = useGetCurrentMusicIndex(resourse.musicList.length)

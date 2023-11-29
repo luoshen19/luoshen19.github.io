@@ -5,6 +5,7 @@ import { keyPlayStrategy } from '@/util/keys'
 import { PlayStrategyEnum, getNextPlayStrategyEnum } from '@/enums/playStrategyEnum'
 
 export const usePlayerStore = defineStore('player', () => {
+  const albumId = ref('')
   const playStrategy = ref(PlayStrategyEnum.DEFAULT)
   const musicIndex = ref(0)
   const imageIndex = ref(0)
@@ -16,6 +17,7 @@ export const usePlayerStore = defineStore('player', () => {
   }
 
   return {
+    albumId,
     playStrategy,
     musicIndex,
     imageIndex,

@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, inject, onMounted, onBeforeUnmount } from 'vue'
 
-import { useAudioMetaStore } from '@/stores/audio'
-
 import { keyCurrentTime, keyDuration } from '@/util/keys.js'
 import { CommonUtils } from '@/util/commonUtils'
 
@@ -11,7 +9,6 @@ import { DirectionEnum } from '@/enums/directionEnum'
 const currentTime = inject(keyCurrentTime)
 const duration = inject(keyDuration)
 
-const audioMeta = useAudioMetaStore()
 const sliderRef = ref<HTMLDivElement>()
 
 const sliderX = computed(() => {
@@ -33,12 +30,6 @@ withDefaults(defineProps<TimeDisplayMode>(), {
   distance: '10px',
   size: '1rem'
 })
-
-function getProgress(event: MouseEvent) {
-  const sliderWidth = sliderRef.value!.offsetWidth
-  const offsetX = event.offsetX
-  audioMeta.sliderPos = offsetX / sliderWidth
-}
 
 let dragging = ref(false)
 let draggingPct = ref(0)
@@ -120,7 +111,6 @@ onBeforeUnmount(() => {
       <div
         ref="sliderRef"
         class="slider"
-        @click.self="getProgress"
         @mousedown="onMouseDown"
         @mousemove="onMouseMove"
         @mouseup="onMouseUp"

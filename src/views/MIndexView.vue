@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import ZIllustration from '@/components/ZIllustration.vue'
+import MIllustration from '@/components/MIllustration.vue'
 import MController from '@/components/MController.vue'
 </script>
 
 <template>
   <div class="m-index">
-    <ZIllustration />
+    <MIllustration />
     <MController class="main-bottom" />
   </div>
 </template>

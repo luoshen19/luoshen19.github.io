@@ -7,7 +7,7 @@ const githubApi = axios.create({
 
 export async function getResource(): Promise<any> {
   try {
-    const resp = await githubApi.get('/db.json')
+    const resp = await githubApi.get('/' + import.meta.env.VITE_RESOURCE_DB)
     return resp.data
   } catch (error) {
     console.log(error)

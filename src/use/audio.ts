@@ -77,6 +77,8 @@ export function useMediaControls(target: Ref<HTMLAudioElement | undefined>, sour
   return { playing, currentTime, duration, ended }
 }
 
+// TODO 将下面函数抽出，放在新文件 musicRes.ts
+
 export function useGetCurrentMusicIndex(len: number): number {
   const tmp = localStorage.getItem(keyMusicIndex)
   if (tmp) {
