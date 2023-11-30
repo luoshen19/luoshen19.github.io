@@ -100,7 +100,7 @@ export function useGetPreviousMusicIndex(
     index = (currentIndex + len - 1) % len
   } else {
     index = Math.floor(Math.random() * len)
-    while (currentIndex == index) {
+    while (currentIndex == index && len > 1) {
       index = Math.floor(Math.random() * len)
     }
   }
@@ -118,7 +118,7 @@ export function useGetNextMusicIndex(
     index = (currentIndex + len + 1) % len
   } else {
     index = Math.floor(Math.random() * len)
-    while (currentIndex == index) {
+    while (currentIndex == index && len > 1) {
       index = Math.floor(Math.random() * len)
     }
   }
