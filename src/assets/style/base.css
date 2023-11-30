@@ -112,3 +112,13 @@ body {
   touch-action: manipulation;
   -ms-touch-action: manipulation;
 }
+
+/* 
+  兼容移动端 safari 或者是 chrome URL栏占了网页一部分位置
+  参考 https://www.jianshu.com/p/437fd5b603de
+*/
+@supports (-webkit-touch-callout: none) {
+  body {
+    min-height: -webkit-fill-available;
+  }
+}

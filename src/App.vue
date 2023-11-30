@@ -10,8 +10,9 @@ import { useMediaQuery } from '@vueuse/core'
 import { useResourceStore } from '@/stores/db'
 import { usePlayerStore } from '@/stores/player'
 
-import { useMediaControls, useGetCurrentMusicIndex } from '@/use/audio'
-import { useGetMusicUrl, useGetImageUrl } from '@/use/resourceUrl'
+import { useMediaControls } from '@/use/audio'
+import { useGetMusicUrl, useGetCurrentMusicIndex } from '@/use/musicRes'
+import { useGetImageUrl } from '@/use/imageRes'
 
 import {
   keyMusicUrl,

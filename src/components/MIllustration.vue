@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject, onMounted } from 'vue'
+import { ref, inject } from 'vue'
 import SvgIcon from './SvgIcon.vue'
 
 import { useResourceStore } from '@/stores/db'
@@ -63,6 +63,7 @@ function showAlbum() {
 <template>
   <div class="z-illustration">
     <div class="menu">
+      <!-- TODO 点击图片区域外界的都可以执行 showAlbum 函数-->
       <button class="menu-btn rotate180" @click="showAlbum">
         <SvgIcon name="arrow-up" color="var(--color-heading)" />
       </button>
