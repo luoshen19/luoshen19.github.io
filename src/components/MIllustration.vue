@@ -10,7 +10,10 @@ import { PlayStrategyEnum } from '@/enums/playStrategyEnum'
 
 import { useGetImageUrl, useGetNextImageIndex } from '@/use/imageRes'
 
+import { funUpdateTheme } from "@/util/keys";
+
 const imageUrl = inject(keyImageUrl)!
+const updateTheme = inject(funUpdateTheme)
 
 const player = usePlayerStore()
 const resource = useResourceStore()
@@ -68,7 +71,7 @@ function showAlbum() {
         <SvgIcon name="arrow-up" color="var(--color-heading)" />
       </button>
 
-      <button class="menu-btn rotate90">
+      <button class="menu-btn three-dots" @click="updateTheme">
         <SvgIcon name="dots-three" color="var(--color-heading)" />
       </button>
     </div>
@@ -226,6 +229,10 @@ function showAlbum() {
 .menu-btn {
   width: 1.3rem;
   height: 1.3rem;
+}
+
+.three-dots {
+  transform: translateX(0.5rem) rotate(90deg);
 }
 
 .fade-enter-active {

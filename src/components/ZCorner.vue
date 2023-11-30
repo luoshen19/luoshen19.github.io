@@ -1,24 +1,22 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import SvgIcon from './SvgIcon.vue'
+
+import { inject } from 'vue'
+
+import { injectTheme, funUpdateTheme } from "@/util/keys";
 import { ThemeEnum } from '@/enums/themeEnum'
 
-let currentTheme = ref(localStorage.getItem('theme') ?? ThemeEnum.DEFAULT)
-
-function switchTheme() {
-  currentTheme.value = currentTheme.value === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK
-  document.documentElement.setAttribute('theme-mode', currentTheme.value)
-  localStorage.setItem('theme', currentTheme.value)
-}
+const theme = inject(injectTheme)
+const updateTheme = inject(funUpdateTheme)
 </script>
 
 <template>
   <div class="z-corner">
-    <div class="theme" @click="switchTheme">
-      <span class="theme-svg" v-show="currentTheme === ThemeEnum.DARK">
+    <div class="theme" @click="updateTheme">
+      <span class="theme-svg" v-show="theme === ThemeEnum.DARK">
         <SvgIcon name="moon" />
       </span>
-      <span class="theme-svg" v-show="currentTheme === ThemeEnum.LIGHT">
+      <span class="theme-svg" v-show="theme === ThemeEnum.LIGHT">
         <SvgIcon name="sun" />
       </span>
     </div>

@@ -10,12 +10,14 @@ export const keyEnded = Symbol() as InjectionKey<Ref<boolean>>
 export const keyImageUrl = Symbol() as InjectionKey<Ref<string>>
 
 export const keyLargeScreen = Symbol() as InjectionKey<Ref<boolean>>
+export const injectTheme = Symbol() as InjectionKey<Ref<string>>
+export const funUpdateTheme = Symbol() as InjectionKey<() => void>
 
 // localStorage key ==========================================
 export const keyAlbumId = 'album'
 export const keyPlayStrategy = 'playStrategy'
 export const keyLikeMisicList = 'likeMisicList'
 export const keyMusicIndex = 'musicIndex'
-
+export const storageTheme = 'theme'
 // github 上的 db.json 的 key
 export const keyDbAlbum = 'album'
