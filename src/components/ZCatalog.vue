@@ -4,7 +4,7 @@ import { inject } from 'vue'
 import { useResourceStore } from '@/stores/db'
 import { usePlayerStore } from '@/stores/player'
 
-import { useGetMusicUrl } from '@/use/resourceUrl'
+import { useGetMusicUrl } from '@/use/musicRes'
 
 import { keyMusicUrl } from '@/util/keys.js'
 

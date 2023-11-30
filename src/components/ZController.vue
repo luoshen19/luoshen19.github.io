@@ -6,8 +6,7 @@ import { inject, watch } from 'vue'
 import { useResourceStore } from '@/stores/db'
 import { usePlayerStore } from '@/stores/player'
 
-import { useGetNextMusicIndex, useGetPreviousMusicIndex } from '@/use/audio'
-import { useGetMusicUrl } from '@/use/resourceUrl'
+import { useGetMusicUrl, useGetNextMusicIndex, useGetPreviousMusicIndex } from '@/use/musicRes'
 
 import { keyMusicUrl, keyPlaying, keyEnded, keyLargeScreen } from '@/util/keys.js'
 import { PlayStrategyEnum } from '@/enums/playStrategyEnum'
