@@ -24,11 +24,15 @@ import {
   keyImageUrl,
   keyLargeScreen,
   keyAlbumId,
-  keyDbAlbum
+  keyDbAlbum,
+  injectTheme,
+  storageTheme,
+  funUpdateTheme
 } from '@/util/keys.js'
 import { getResource } from '@/api/githubApi'
 
 import { PlayStrategyEnum, str2PlayStrategyEnum } from '@/enums/playStrategyEnum'
+import { ThemeEnum } from "@/enums/ThemeEnum";
 
 // =========================================
 const resourse = useResourceStore()
@@ -65,6 +69,14 @@ onBeforeMount(() => {
 const largeScreen = useMediaQuery(`(min-width: ${import.meta.env.VITE_MIN_WIDTH})`)
 const { playing, currentTime, duration, ended } = useMediaControls(audioRef, musicUrl)
 
+let theme = ref(localStorage.getItem('theme') ?? ThemeEnum.DEFAULT)
+
+function updateTheme() {
+  theme.value = theme.value === ThemeEnum.DARK ? ThemeEnum.LIGHT : ThemeEnum.DARK
+  document.documentElement.setAttribute('theme-mode', theme.value)
+  localStorage.setItem(storageTheme, theme.value)
+}
+
 // 依赖注入 =================================
 provide(keyMusicUrl, musicUrl)
 provide(keyPlaying, playing)
@@ -73,6 +85,9 @@ provide(keyDuration, duration)
 provide(keyEnded, ended)
 provide(keyImageUrl, imageUrl)
 provide(keyLargeScreen, largeScreen)
+provide(injectTheme, theme)
+
+provide(funUpdateTheme, updateTheme)
 // 依赖注入 =================================
 
 // 路由 ===========================
