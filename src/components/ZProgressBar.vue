@@ -11,14 +11,6 @@ const duration = inject(keyDuration)
 
 const sliderRef = ref<HTMLDivElement>()
 
-const sliderX = computed(() => {
-  if (dragging.value) {
-    return (draggingPct.value * 100).toFixed(2) + '%'
-  } else {
-    return CommonUtils.toPercentage(currentTime?.value, duration?.value)
-  }
-})
-
 export interface TimeDisplayMode {
   position?: DirectionEnum
   distance?: string
@@ -33,6 +25,22 @@ withDefaults(defineProps<TimeDisplayMode>(), {
 
 let dragging = ref(false)
 let draggingPct = ref(0)
+
+const sliderX = computed(() => {
+  if (dragging.value) {
+    return (draggingPct.value * 100).toFixed(2) + '%'
+  } else {
+    return CommonUtils.toPercentage(currentTime?.value, duration?.value)
+  }
+})
+
+const currentTimeInTemplate = computed(() => {
+  if (dragging.value) {
+    return CommonUtils.toFormatTime(draggingPct.value * (duration?.value ?? 0))
+  } else {
+    return CommonUtils.toFormatTime(currentTime?.value)
+  }
+})
 
 function onMouseDown(event: MouseEvent) {
   dragging.value = true
@@ -102,7 +110,7 @@ onBeforeUnmount(() => {
       :style="`margin-bottom: ${distance}; font-size: ${size};`"
       v-show="position === DirectionEnum.UP"
     >
-      <div>{{ CommonUtils.toFormatTime(currentTime) }}</div>
+      <div>{{ currentTimeInTemplate }}</div>
       <div>{{ CommonUtils.toFormatTime(duration) }}</div>
     </div>
 
@@ -130,7 +138,7 @@ onBeforeUnmount(() => {
       :style="`margin-top: ${distance}; font-size: ${size};`"
       v-show="position === DirectionEnum.DOWN"
     >
-      <div class="time-content">{{ CommonUtils.toFormatTime(currentTime) }}</div>
+      <div class="time-content">{{ currentTimeInTemplate }}</div>
       <div class="time-content">{{ CommonUtils.toFormatTime(duration) }}</div>
     </div>
   </div>
