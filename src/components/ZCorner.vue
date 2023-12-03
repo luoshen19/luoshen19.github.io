@@ -3,7 +3,7 @@ import SvgIcon from './SvgIcon.vue'
 
 import { inject } from 'vue'
 
-import { injectTheme, funUpdateTheme } from "@/util/keys";
+import { injectTheme, funUpdateTheme } from '@/util/keys'
 import { ThemeEnum } from '@/enums/themeEnum'
 
 const theme = inject(injectTheme)

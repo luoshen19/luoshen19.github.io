@@ -10,7 +10,7 @@ import { PlayStrategyEnum } from '@/enums/playStrategyEnum'
 
 import { useGetImageUrl, useGetNextImageIndex } from '@/use/imageRes'
 
-import { funUpdateTheme } from "@/util/keys";
+import { funUpdateTheme } from '@/util/keys'
 
 const imageUrl = inject(keyImageUrl)!
 const updateTheme = inject(funUpdateTheme)

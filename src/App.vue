@@ -32,7 +32,7 @@ import {
 import { getResource } from '@/api/githubApi'
 
 import { PlayStrategyEnum, str2PlayStrategyEnum } from '@/enums/playStrategyEnum'
-import { ThemeEnum } from "@/enums/themeEnum";
+import { ThemeEnum } from '@/enums/themeEnum'
 
 // =========================================
 const resourse = useResourceStore()

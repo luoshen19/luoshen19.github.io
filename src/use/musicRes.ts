@@ -1,7 +1,6 @@
 import { keyMusicIndex } from '@/util/keys'
 import { PlayStrategyEnum } from '@/enums/playStrategyEnum'
 
-
 export function useGetMusicUrl(name: string): string {
   return import.meta.env.VITE_RESOURCE_URL + '/music/' + name
 }
