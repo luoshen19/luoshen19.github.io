@@ -7,8 +7,6 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    copy: typeof import('./src/components/ZIllustration copy.vue')['default']
-    ElButton: typeof import('element-plus/es')['ElButton']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
@@ -21,7 +19,6 @@ declare module 'vue' {
     SvgIcon: typeof import('./src/components/SvgIcon.vue')['default']
     ZCatalog: typeof import('./src/components/ZCatalog.vue')['default']
     ZController: typeof import('./src/components/ZController.vue')['default']
-    ZController4Moible: typeof import('./src/components/ZController4Moible.vue')['default']
     ZCorner: typeof import('./src/components/ZCorner.vue')['default']
     ZIllustration: typeof import('./src/components/ZIllustration.vue')['default']
     ZProgressBar: typeof import('./src/components/ZProgressBar.vue')['default']
